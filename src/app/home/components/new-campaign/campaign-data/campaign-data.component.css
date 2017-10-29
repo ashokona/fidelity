@@ -1,0 +1,10 @@
+.error { color:red; padding-bottom:5px };
+.campaigndata-form input, .campaigndata-form select { height: 34px;
+    background: transparent;
+    border: 1px solid #ccc5b9;
+    font-weight: normal; padding: 6px 15px;}
+
+    .loader .my-loader {
+        background-color: #D32F2F;
+    }
+

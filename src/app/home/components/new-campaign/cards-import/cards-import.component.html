@@ -1,0 +1,59 @@
+<loaders-css [loader]="'square-spin'" *ngIf="isLoading" [loaderClass]="'my-loader'"></loaders-css>
+<div class="card" *ngIf="!isLoading">
+  <div class="header">
+      <h4 class="title">Upload Cards</h4>
+  </div>
+  <div class="content">
+      <form name="campaignData" #campaignDataForm="ngForm" novalidate >
+          <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <input type="file" (change)="updated($event)">
+                </div>
+              </div>
+          </div>
+
+        <div class="header">
+            <ul class="nav nav-tabs">
+                <li class="title" [class.active]="showLoadedData"><a (click)="changeData()">Loaded</a></li>
+                <li class="title" [class.active]="!showLoadedData"><a (click)="changeData()">Rejected</a></li>
+            </ul>
+            <!-- <h4 class="title">Loaded</h4>
+            <h4 class="title">Loaded</h4> -->
+        </div>
+        <div class="content table-responsive table-full-width" *ngIf="showLoadedData">
+            <table class="table table-striped">
+                <thead>
+                    <th>Card Id</th>
+                    <th>Email</th>
+                    <th>Customer Id</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let loadedCard of loadedCards">
+                      <td>{{loadedCard.idCard}}</td>
+                      <td>{{loadedCard.email}}</td>
+                      <td>{{loadedCard.idCustomer}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content table-responsive table-full-width" *ngIf="!showLoadedData">
+            <table class="table table-striped">
+                <thead>
+                    <th>Card Id</th>
+                    <th>Email</th>
+                    <th>Customer Id</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let loadedCard of loadedCards">
+                        <td>{{loadedCard.idCard}}</td>
+                        <td>{{loadedCard.email}}</td>
+                        <td>{{loadedCard.idCustomer}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix"></div>
+      </form>
+  </div>
+</div>

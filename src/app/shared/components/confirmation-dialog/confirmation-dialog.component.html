@@ -1,0 +1,33 @@
+
+<h1 md-dialog-title>Confirm</h1>
+<div md-dialog-content>{{confirmMessage}}</div>
+<div md-dialog-actions>
+  <button md-button style="color: #fff;background-color: #153961;" (click)="dialogRef.close(true)">Confirm</button>
+  <button md-button (click)="dialogRef.close(false)">Cancel</button>
+</div>
+
+<!-- <h2 mat-dialog-title>Delete all</h2>
+<mat-dialog-content>Are you sure?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <button mat-button [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions> -->
+<!-- 
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div> -->

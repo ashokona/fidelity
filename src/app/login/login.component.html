@@ -1,0 +1,65 @@
+<div class="row login-main">
+  <div class="col-md-4 col-md-offset-4">
+    <div class="login-content">
+      <div class="login-starts">
+        <div class="card">
+          <div class="login-logo">
+            <img src="/assets/img/logoGooder.png" style="width:400px;height:auto">
+          </div>
+
+          <div class="content">
+            <form name="signin" #signinForm="ngForm" novalidate>
+              <div class="row">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">User Name</label>
+                  <input
+                    type="text"
+                    class="form-control border-input"
+                    [class.notValid]="username.errors && (username.dirty || username.touched)"
+                    [(ngModel)]="user.username"
+                    #username="ngModel"
+                    name="username"
+                    placeholder="UserName" required>
+                  <div *ngIf="username.errors && (username.dirty || username.touched)" class="error">
+                    <span [hidden]="!username.errors.required">Username is required </span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    class="form-control border-input"
+                    [class.notValid]="password.errors && (password.dirty || password.touched)"
+                    [(ngModel)]="user.password"
+                    #password="ngModel"
+                    name="password"
+                    placeholder="password" required>
+                  <div *ngIf="password.errors && (password.dirty || password.touched)" class="error">
+                    <span [hidden]="!password.errors.required">Please enter password.</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="login-submit text-center">
+                <button
+                  type="submit"
+                  class="btn btn-info btn-fill btn-wd"
+                  [disabled]="!signinForm.form.valid" (click)="login(user)"
+                >Login
+                </button>
+              </div>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--noitifications template-->
+<simple-notifications [options]="options"></simple-notifications>
+

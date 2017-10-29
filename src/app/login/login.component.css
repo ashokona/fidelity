@@ -1,0 +1,10 @@
+.login-starts { padding-top: 20vh;}
+.login-logo img { width: 250px;
+    padding: 20px 40px;
+    margin: 0px auto;
+    display: table;}
+.login-starts .header, .login-starts .content { margin: 20px 25px;}
+.login-starts .header { padding-top: 0px;}
+.login-submit { padding-bottom: 15px; padding-top: 10px;}
+.login-main .form-control.border-input.notValid { border: 1px solid red;}
+.error { color:red; padding-bottom:5px };

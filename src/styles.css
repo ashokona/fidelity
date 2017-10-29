@@ -1,0 +1,108 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/primeng/resources/themes/omega/theme.css';
+@import '../node_modules/primeng/resources/primeng.min.css';
+
+.lastname-dropdown .dropdown-inline {
+    width: 100% !important;
+}
+.lastname-dropdown button.dropdown-toggle {
+    height: 36px !important;
+    border-radius: 6px !important;
+    padding: 5px 10px !important;
+    width: 100% !important;
+    text-align: left !important;
+    border: 1px solid #CCC5B9 !important;
+}
+.lastname-dropdown button .caret {
+    float:right !important;
+    position: relative !important;
+    top: 8px !important;
+}
+.card-main select {
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid #CCC5B9;
+    padding: 5px 10px;
+}
+.dashboard-table input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin: 0px;
+    display: table;
+}
+.dashboard-table th,.dashboard-table th a {
+    font-weight: normal;
+    color: #000
+}
+.dashboard-table tr {
+    border-bottom: 1px solid #eaeaea;
+}
+.dashboard-table thead tr {
+    background-color: #f4fbfd;
+}
+.dashboard-table thead tr th {
+    font-size: 18px !important;
+    line-height: 24px !important;
+}
+.dashboard-table tbody td {
+    padding: 18px !important; 
+}
+.dashboard-table tbody td.ng2-smart-actions a {
+    color: #000;
+    padding: 5px 12px 5px 0px;
+}
+.dashboard-table tbody tr:nth-of-type(2n) {
+    background-color: #FFFCF5;
+}
+.dashboard-table ng2-smart-table thead > tr > th {
+    font-weight: normal !important;
+    padding-left: 18px !important;
+}
+.ui-dialog.ui-widget .ui-dialog-titlebar {
+    background: #f4fbfd !important;
+}
+.ui-dialog.ui-widget .card {
+    box-shadow: none;
+}
+.ui-dialog.ui-widget {
+    box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
+    opacity: 1;
+    border-radius: 6px;
+}
+.ui-dialog.ui-widget .error span {
+    color: red;
+    font-size: 12px;
+}
+.ui-dialog.ui-widget .proceed-text .text-center {
+    padding-top: 8px;
+}
+.ui-dialog.ui-widget .proceed-text .text-center label input {
+    width: 20px;
+    height: 14px;
+    position: relative;
+    top: 2px;
+}
+.modal-card .form-group input.notValid { border: 1px solid red;}
+.campaigndata-form input, .campaigndata-form select { height: 34px; background: transparent; border: 1px solid #ccc5b9; font-weight: normal; padding: 6px 15px;}
+.campaigndata-form label { color: #94918d; }
+.campaign-selectdropdowns select, .campaign-selectdropdowns select:hover,
+.campaign-selectdropdowns ss-multiselect-dropdown button.dropdown-toggle, .campaign-selectdropdowns ss-multiselect-dropdown button.dropdown-toggle:hover,
+.campaign-selectdropdowns ss-multiselect-dropdown .open > .btn.dropdown-toggle, .campaign-selectdropdowns ss-multiselect-dropdown .btn:focus
+ { background-color: transparent !important; color: #333;}
+@media only screen and (min-width: 1024px) {
+    .ui-dialog.ui-widget {
+        width: 600px !important;
+    }
+}
+
+.loader .my-loader {
+    background-color: #68B3C8;
+    top: 10%;
+    border: 3px solid #68B3C8;
+    margin-left:47%
+}
+
+.form-group .owl-timer-wrapper .owl-timer-input{
+    width: 80% !important;
+    height: 100%;
+}

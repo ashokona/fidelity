@@ -1,0 +1,47 @@
+<div class="sidebar" data-background-color="white" data-active-color="danger">
+
+  <!--
+  Tip 1: you can change the color of the sidebar's background using: data-background-color="white | black"
+  Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
+-->
+
+  <div class="sidebar-wrapper">
+        <div class="logo">
+            <img src="/assets/img/logoGooder.png" style="max-width:200px;height:auto">
+        </div>
+
+        <ul class="nav">
+            <li class="active" [class.active]="activeRoute == 'dashboard'" (click)="routeChnage('dashboard')">
+                <a routerLink="dashboard">
+                    <i class="ti-home"></i>
+                    <p>Home</p>
+                </a>
+            </li>
+            <li [class.active]="activeRoute == 'cards'" (click)="routeChnage('cards')">
+                <a routerLink="cards" routerLinkActive="active" >
+                    <i class="ti-layers"></i>
+                    <p>Cards</p>
+                </a>
+            </li>
+            <li [class.active]="activeRoute == 'campaigns'" (click)="routeChnage('campaigns')">
+                <a routerLink="campaigns" routerLinkActive="active">
+                    <i class="ti-view-list-alt"></i>
+                    <p>Campaigns</p>
+                </a>
+            </li>
+            <li [class.active]="activeRoute == 'newcampaigns'" (click)="routeChnage('newcampaigns')">
+                <a routerLink="newcampaigns" routerLinkActive="active">
+                    <i class="ti-pencil-alt2"></i>
+                    <p>New Campaign</p>
+                </a>
+            </li>
+
+    <!-- <li class="active-pro">
+                <a href="upgrade.html">
+                    <i class="ti-export"></i>
+                    <p>Upgrade to PRO</p>
+                </a>
+            </li> -->
+        </ul>
+  </div>
+</div>

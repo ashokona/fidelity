@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <app-side-nav></app-side-nav>
+
+  <div class="main-panel">
+
+    <app-top-nav></app-top-nav>
+
+    <div class="content">
+        <router-outlet></router-outlet>
+    </div>
+
+    <footer></footer>
+
+  </div>
+
+</div>
+<!--noitifications template-->
+<simple-notifications [options]="options"></simple-notifications>

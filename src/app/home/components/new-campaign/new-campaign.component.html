@@ -1,0 +1,44 @@
+<!-- <loaders-css [loader]="'square-spin'" [loaderClass]="'my-loader'"></loaders-css> -->
+<div class="content">
+  <div class="container-fluid">
+      <div class="col-md-12">
+          <div class="card card-main">
+              <div class="content">
+                  <form>
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="col-md-2 pull-left">
+                                <div class="text-center" >
+                                    <button type="submit" [disabled]="!prevButton" class="btn btn-warn btn-fill btn-wd" (click)="prvView()">Prev</button>
+                                </div>
+                              </div>
+                              <div class="col-md-2" >
+                                  <!-- <div class="text-center" *ngIf="prevButton">
+                                      <button type="submit" class="btn btn-warn btn-fill btn-wd" (click)="prvView()">Prev</button>
+                                  </div> -->
+                              </div>
+                              <div class="col-md-2" >
+
+                              </div>
+                              <div class="col-md-2 pull-right" >
+                                    <div class="text-center" *ngIf="nextButton">
+                                        <button type="submit" class="btn btn-warn btn-fill btn-wd" [disabled]="nextButtonState" (click)="nxtView()">Next</button>
+                                    </div>
+                                    <div class="text-center" *ngIf="doneButton">
+                                        <button type="submit" class="btn btn-info btn-fill btn-wd" (click)="done()">Done</button>
+                                    </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="clearfix"></div>
+                  </form>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-12">
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+      </div>
+  </div>
+</div>
