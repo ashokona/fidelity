@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Router } from '@angular/router';
-import { UserService } from './user.service'
+//import { UserService } from './user.service'
 import { JwtService } from './jwt.service';
 
 
@@ -14,7 +14,7 @@ export class ApiService {
   constructor(
     private http: Http,
     private route: Router,
-    public userservice : UserService,
+    //public userservice : UserService,
     private jwtService: JwtService    
   ) { }
 
@@ -39,7 +39,7 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => {
         if (error.status == 401) {
-          this.userservice.purgeAuth();
+          //this.userservice.purgeAuth();
           this.route.navigate(['']);
         }
         return Observable.throw(error.json());
