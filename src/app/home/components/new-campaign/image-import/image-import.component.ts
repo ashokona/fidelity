@@ -8,6 +8,7 @@ import { NgModel, DefaultValueAccessor, NgControl } from '@angular/forms'
 import { Http, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Subscription }   from 'rxjs/Subscription';
+import { environment } from '../../../../../environments/environment';
 
 import { NotificationsService } from 'angular2-notifications-lite';
 
@@ -19,7 +20,7 @@ import { NotificationsService } from 'angular2-notifications-lite';
 export class ImageImportComponent implements OnInit {
   isLoading:Boolean = true
   imageData: ImageDetails;
-
+  filename:String;
   subscription: Subscription;
 
   public successOptions = {
@@ -73,6 +74,7 @@ export class ImageImportComponent implements OnInit {
     this.isLoading = true;    
     const files = $event.target.files || $event.srcElement.files;
     const file = files[0];
+    this.filename = file.name;
     const formData = new FormData();
     //this.imageData.imageFilename = file.name;
     formData.append('file', file);
@@ -81,7 +83,7 @@ export class ImageImportComponent implements OnInit {
     })
 
     let options = new RequestOptions({headers});
-    let url = "http://52.59.47.73/fd/rest/campaign/uploadImage";
+    let url = environment.api_url+"campaign/uploadImage";
     this.http.post(url, formData, options).map(res => res.json()).subscribe(
       res => {
         if(res.statusCode == 'OK'){

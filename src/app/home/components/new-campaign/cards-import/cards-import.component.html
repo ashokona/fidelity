@@ -5,13 +5,20 @@
   </div>
   <div class="content">
       <form name="campaignData" #campaignDataForm="ngForm" novalidate >
-          <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <input type="file" (change)="updated($event)">
+          <div class="row">    
+            <div class="col-md-12 fileupload-main">  
+                <div class="input-group image-preview">
+                    <input type="text" class="form-control image-preview-filename" name="filename" [(ngModel)]='filename'> 
+                    <span class="input-group-btn">
+                        <div class="btn btn-default fileupload-input">
+                            <span><i class="fa fa-folder-open" aria-hidden="true"></i></span>
+                            <span class="fileupload-input-title">Choose file</span>
+                            <input type="file" name="input-file-preview" (change)="updated($event)"/>
+                        </div>
+                    </span>
                 </div>
-              </div>
-          </div>
+            </div>
+        </div>
 
         <div class="header">
             <ul class="nav nav-tabs">

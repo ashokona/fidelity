@@ -88,15 +88,18 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
   prvView(){
     if(this.route == 'cardimport'){
       this.prevButton = false;
+      this.doneButton = false;
       this.multiStepService.setCurrentRoute('data'); 
       this.router.navigate(['/home/newcampaigns/data']);
       this.changeDetection.detectChanges();
     }else if(this.route == 'imageimport'){
+      this.doneButton = false;
       this.multiStepService.setCurrentRoute('cardimport') 
       this.router.navigate(['/home/newcampaigns/cardimport']);
       this.changeDetection.detectChanges();
     }else if(this.route == 'summary'){
       this.nextButton = true;
+      this.doneButton = false;
       this.multiStepService.setCurrentRoute('imageimport') 
       this.router.navigate(['/home/newcampaigns/imageimport']);
       this.changeDetection.detectChanges();     

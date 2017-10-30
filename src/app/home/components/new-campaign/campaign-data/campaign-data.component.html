@@ -70,6 +70,7 @@
                         name="tsValidEnd"
                         #tsValidEnd="ngModel"
                         [dateFormat]="dateFormat"
+                        [min]="campaignData.tsValidStart"
                         required ></owl-date-time>
                         <div *ngIf="tsValidEnd.errors && (tsValidEnd.dirty || tsValidEnd.touched)" class="error">
                           <span [hidden]="!tsValidEnd.errors.required">Campaign Validity To date is required </span>
@@ -104,6 +105,7 @@
                           name="tsPrintingEnd" 
                           #tsPrintingEnd="ngModel" 
                           [dateFormat]="dateFormat"
+                          [min]="campaignData.tsPrintingStart"
                           required></owl-date-time>
                         <div *ngIf="tsPrintingEnd.errors && (tsPrintingEnd.dirty || tsPrintingEnd.touched)" class="error">
                           <span [hidden]="!tsPrintingEnd.errors.required">Printing Validity To from date is required </span>
@@ -133,7 +135,7 @@
               <div class="row">
                   <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP' || campaignData.cdProduct == 'SMS') ">
                       <div class="form-group" style="margin-right:10px">
-                          <label>Sms Message <b>{{characterleft}} charcter(s) left</b></label>
+                         <label>Sms Message <b *ngIf = 'campaignData.smsMessage.length'>({{campaignData.smsMessage.length}} Character)</b></label>
                           <textarea
                             class="form-control border-input"
                             [class.notValid]="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)"

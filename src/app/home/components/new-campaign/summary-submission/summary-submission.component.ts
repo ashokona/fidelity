@@ -25,7 +25,7 @@ export class SummarySubmissionComponent implements OnInit {
     private multiStepService : MultiStepService,
     private homeService : HomeService
   ) { 
-    this.dateFormat = 'YYYY-MM-DD HH:mm';
+    this.dateFormat = environment.summaryFormat;
     this.campaignCredits = {
       cdProduct : '',
       nrCustomer : 0,
