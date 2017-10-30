@@ -1,22 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Router } from '@angular/router';
-//import { UserService } from './user.service'
+import { UserService } from './user.service'
 import { JwtService } from './jwt.service';
 
 
 @Injectable()
 export class ApiService {
+  public userservice : UserService;
   constructor(
     private http: Http,
     private route: Router,
-    //public userservice : UserService,
-    private jwtService: JwtService    
-  ) { }
+    private jwtService: JwtService,
+    injector:Injector    
+  ) { 
+    setTimeout(() => this.userservice = injector.get(UserService));
+  }
 
   private setHeaders(): Headers {
     const headersConfig = {
@@ -39,7 +42,7 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => {
         if (error.status == 401) {
-          //this.userservice.purgeAuth();
+          this.userservice.purgeAuth();
           this.route.navigate(['']);
         }
         return Observable.throw(error.json());
@@ -55,7 +58,7 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => {
         if (error.status == 401) {
-          //this.userservice.purgeAuth();
+          this.userservice.purgeAuth();
           this.route.navigate(['']);
         }
         return Observable.throw(error.json());
@@ -71,6 +74,7 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => {
         if (error.status == 401) {
+          this.userservice.purgeAuth();          
           this.route.navigate(['']);
         }
         return Observable.throw(error.json());
@@ -86,6 +90,7 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => {
         if (error.status == 401) {
+          this.userservice.purgeAuth();          
           this.route.navigate(['']);
         }
         return Observable.throw(error.json());
@@ -101,6 +106,7 @@ export class ApiService {
       .map((res: Response) => res.json())
       .catch((error: Response) => {
         if (error.status == 401) {
+          this.userservice.purgeAuth();          
           this.route.navigate(['']);
         }
         return Observable.throw(error.json());
