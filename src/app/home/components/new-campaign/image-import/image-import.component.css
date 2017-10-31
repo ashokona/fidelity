@@ -37,3 +37,12 @@
     margin-left:2px;
     font-weight: normal;
 }
+.currentimg-main .currentimg-left, .currentimg-main .currentimg-right {
+    padding: 0px !important;
+}
+.currentimg-main, .currentimg-main .currentimg-left img, .currentimg-main .currentimg-right img {
+    height: 570px;
+    width: 100%;
+    min-height: 570px;
+    max-height: 570px;
+}

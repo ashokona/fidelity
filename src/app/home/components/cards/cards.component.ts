@@ -61,7 +61,7 @@ export class CardsComponent implements OnInit {
       custom: [
         {
           name: 'duplicate',
-          title: 'Suspend ',
+          title: 'Change Status ',
         },
       ],
       delete: true,
@@ -244,25 +244,49 @@ export class CardsComponent implements OnInit {
   }
 
   onCustom(event) {
+    if(event.data.cdStatus === 'E'){
+      var confMessage = 'Are you sure To Disable the card?'
+    }else{
+      var confMessage = 'Are you sure To Enable the card?'      
+    }
     this.confirmationService.confirm({
-      message: 'Are you sure To Disable the card?',
+      message: confMessage,
       header: 'Confirmation',
       icon: 'fa fa-question-circle',
       accept: () => {
-        this.isLoading = true;        
-        this.homeService.disableSelectedCard(event.data.idCard)
-                        .subscribe(res=>{
-                          if(res.statusCode == 'OK'){
-                            this.isLoading = false;                            
-                            this._service.success('Card Status Changed ', '', this.successOptions);
-                            this.initCardsList(0,99999999999999,'','','')
-                          }else{
-                            this.isLoading = false;                            
-                            this._service.error('Card Status not Changed ', '', this.errorOptions);
-                          }
-                        }, err=> {
-                          console.log(err)
-                        })
+        console.log(event)
+        this.isLoading = true;  
+        if(event.data.cdStatus === 'E'){
+          this.homeService.disableSelectedCard(event.data.idCard)
+            .subscribe(res=>{
+              if(res.statusCode == 'OK'){
+                this.isLoading = false;                            
+                this._service.success('Card Status Changed ', '', this.successOptions);
+                this.initCardsList(0,99999999999999,'','','')
+              }else{
+                this.isLoading = false;                            
+                this._service.error('Card Status not Changed ', '', this.errorOptions);
+              }
+            }, err=> {
+              console.log(err)
+            })
+        }  
+        else{
+          this.homeService.enableSelectedCard(event.data.idCard)
+          .subscribe(res=>{
+            if(res.statusCode == 'OK'){
+              this.isLoading = false;                            
+              this._service.success('Card Status Changed ', '', this.successOptions);
+              this.initCardsList(0,99999999999999,'','','')
+            }else{
+              this.isLoading = false;                            
+              this._service.error('Card Status not Changed ', '', this.errorOptions);
+            }
+          }, err=> {
+            console.log(err)
+          })
+        }    
+
       }
     });
 

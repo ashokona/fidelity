@@ -32,6 +32,14 @@ export class HomeService {
                           })
   }
 
+  enableSelectedCard(id){
+    var path = 'card/'+id+'/enable'
+    return this.apiService.get(path)
+                          .map(data =>{
+                            return data
+                          })
+  }
+
   cardStatus(){
     var path = "select/cardStatus"
     return this.apiService.get(path)
