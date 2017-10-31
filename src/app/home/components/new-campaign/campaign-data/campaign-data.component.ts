@@ -68,6 +68,7 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
             tsPrintingEnd: '',
             tsValidStart: '',
             tsValidEnd: '',
+            smsIdentity:''
           }
           this.multiStepService.setNextButtonState(true);
         }
@@ -94,7 +95,8 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     if(count>0){
-
+      console.log(this.campaignData.smsIdentity)
+      console.log(this.campaignData.mailBody)
     }else{
       this.multiStepService.setNextButtonState(false);
       this.multiStepService.setCampaignData(this.campaignData);
@@ -123,11 +125,8 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.isLoading = false;
       this.homeService.smsIdentityList().subscribe(data=>{
-
+        
       })
-
-    this.multiStepService.setCurrentRoute('data');
-    
   }
   ngOnDestroy(){
     tinymce.remove(this.editor);
@@ -143,6 +142,9 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
           const content = editor.getContent();
           this.onEditorKeyup.emit(content);
           this.campaignData.mailBody = content;
+        });
+        editor.on('init', () => {
+          editor.setContent(this.campaignData.mailBody);
         });
       },
     });

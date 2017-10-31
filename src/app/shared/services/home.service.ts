@@ -32,7 +32,8 @@ export class HomeService {
                           })
   }
 
-  cardStatus(path){
+  cardStatus(){
+    var path = "select/cardStatus"
     return this.apiService.get(path)
                           .map(data =>{
                             return data

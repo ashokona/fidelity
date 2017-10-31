@@ -68,6 +68,15 @@ export class CardsComponent implements OnInit {
       edit:false,
       position:'right'
     },
+    Actions: //or something
+    {
+      title:'Detail',
+      type:'html',
+      valuePrepareFunction:(cell,row)=>{
+        return `<a title="See Detail Product "href="Your api key or something/${row.Id}"> <i class="ion-edit"></i></a>`
+      },
+      filter:false       
+    },
     hideSubHeader: true,
     noDataMessage: "No data Found",
     mode:'external',
@@ -106,7 +115,9 @@ export class CardsComponent implements OnInit {
     }
 
   }
-
+  test(){
+    console.log("test called")
+  }
 
   onRowSelect(event) {
     if (event.isSelected === null) {
@@ -344,9 +355,10 @@ export class CardsComponent implements OnInit {
       this.homeService.addNewCard(path, newCard)
                       .subscribe(res=>{
                         if(res.errorMessages.length != 0 && res.statusCode === 'KO'){                    
-                          this.addNewCardError = "enter correct data"
+                          this.addNewCardError = res.errorMessages[0]
                         }
                         else if((res.infoMessages.length === 1) && (res.statusCode === 'OK')){
+                          this.addNewCardError = res.infoMessages[0]
                           this.proceedSubmit = true;
                         }else if(res.statusCode === 'OK'){         
                           this._service.success('New Card Added', '', this.successOptions);
@@ -385,8 +397,8 @@ export class CardsComponent implements OnInit {
   ngOnInit() {
     this.initCardsList(0,99999999999999, '','','')
 
-    var statusPath = "select/cardStatus"
-    this.homeService.cardStatus(statusPath)
+
+    this.homeService.cardStatus()
       .subscribe(res => {
         this.filterData.status = res[0].value
         this.cardStatusList = res;

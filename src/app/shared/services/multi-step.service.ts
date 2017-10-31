@@ -23,7 +23,7 @@ export class MultiStepService {
   private campaignDataSubject = new BehaviorSubject<any>('');
   public campaignData = this.campaignDataSubject.asObservable().distinctUntilChanged();
 
-  public campaignCardsSubject = new BehaviorSubject<XlsImportDetails>({qtFreebee:0,cdProduct:0,campaignDetailsList:[]});
+  public campaignCardsSubject = new BehaviorSubject<XlsImportDetails>({qtFreebee:0,cdProduct:0,campaignDetailsList:[],rejectedCardsList:[]});
   public campaignCards = this.campaignCardsSubject.asObservable().distinctUntilChanged();
 
   public campaignImageSubject = new BehaviorSubject<ImageDetails>({imageUrl:'',imageFileName:''});
@@ -79,6 +79,7 @@ interface XlsImportDetails {
   qtFreebee : number;
   cdProduct : number;
   campaignDetailsList: any[];
+  rejectedCardsList: any[]
 }
 interface ImageDetails {
   imageUrl : string,

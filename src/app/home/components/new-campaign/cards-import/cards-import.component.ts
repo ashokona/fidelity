@@ -56,7 +56,8 @@ export class CardsImportComponent implements OnInit, OnDestroy {
       this.xlsImportDetails={
         qtFreebee : 0,
         cdProduct : 0,
-        campaignDetailsList: []
+        campaignDetailsList: [],
+        rejectedCardsList:[]
       }
       this.documents =this.formService.getcardsImport();
       this.subscription = this.multiStepService.campaignData.subscribe(
@@ -71,6 +72,7 @@ export class CardsImportComponent implements OnInit, OnDestroy {
         data => {
           if(data.campaignDetailsList.length != 0 ){
             this.loadedCards = data.campaignDetailsList;
+            this.rejectedCards = data.rejectedCardsList
             this.multiStepService.setNextButtonState(false);
           }else{
              this.multiStepService.setNextButtonState(true);
@@ -112,13 +114,16 @@ export class CardsImportComponent implements OnInit, OnDestroy {
     let url = environment.api_url+"campaign/upxls";
     this.http.post(url, formData, options).map(res => res.json()).subscribe(
       res => {
+        console.log(res);
         if(res.statusCode == 'OK'){
           this._service.success('Imported Sucessfully', '', this.successOptions);
           this.isLoading = false;
           this.loadedCards = res.data
+          this.rejectedCards = res.infoMessages
           this.xlsImportDetails.cdProduct = this.campaignData.cdProduct;
           this.xlsImportDetails.qtFreebee = 2;
           this.xlsImportDetails.campaignDetailsList = res.data;
+          this.xlsImportDetails.rejectedCardsList = res.infoMessages;
           this.multiStepService.setCardsData(this.xlsImportDetails);
           this.multiStepService.setNextButtonState(false);
         }else if(res.statusCode == 'KO'){
@@ -142,4 +147,5 @@ interface XlsImportDetails {
   qtFreebee : number;
   cdProduct : number;
   campaignDetailsList: any[];
+  rejectedCardsList: any[];
 }

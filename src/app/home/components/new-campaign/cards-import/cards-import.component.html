@@ -47,15 +47,11 @@
         <div class="content table-responsive table-full-width" *ngIf="!showLoadedData">
             <table class="table table-striped">
                 <thead>
-                    <th>Card Id</th>
-                    <th>Email</th>
-                    <th>Customer Id</th>
+                    <th>rejected Card</th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let loadedCard of loadedCards">
-                        <td>{{loadedCard.idCard}}</td>
-                        <td>{{loadedCard.email}}</td>
-                        <td>{{loadedCard.idCustomer}</td>
+                    <tr *ngFor="let rejectedCard of rejectedCards">
+                        <td>{{rejectedCard}}</td>
                     </tr>
                 </tbody>
             </table>

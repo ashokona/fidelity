@@ -155,7 +155,7 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
     this.homeService.addNewCampaign(this.newCampaign).subscribe(res=>{
       if(res.statusCode == "OK"){
         this.multiStepService.setCampaignData('');
-        this.multiStepService.setCardsData({qtFreebee:undefined,cdProduct:undefined,campaignDetailsList:[]});
+        this.multiStepService.setCardsData({qtFreebee:undefined,cdProduct:undefined,campaignDetailsList:[],rejectedCardsList:[]});
         this.multiStepService.setImageData({imageUrl:'',imageFileName:''});
         this.multiStepService.setCurrentRoute('data')     
         this.routeService.setCurrentRoute('campaigns')

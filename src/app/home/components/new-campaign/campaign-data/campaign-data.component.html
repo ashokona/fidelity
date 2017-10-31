@@ -131,7 +131,27 @@
                     </div>
                   </div>
               </div>
-
+              <div class="row">
+                <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'SMS' || campaignData.cdProduct == 'MSP') ">
+                    <div class="form-group" style="margin-right:10px;margin-left:10px">
+                        <label>SMS sender identity</label>
+                        <input
+                        type="text"
+                        [class.notValid]="smsIdentity.errors && (smsIdentity.dirty || smsIdentity.touched)"
+                        [(ngModel)]="campaignData.smsIdentity"
+                        (ngModelChange)="doSomething(campaignData)"
+                        #smsIdentity="ngModel"
+                        name="smsIdentity"
+                        class="form-control border-input"
+                        placeholder=""
+                        value="Australia"
+                        [required]="(campaignData.smsIdentity == 'SMS' || campaignData.smsIdentity == 'MSP')">
+                        <div *ngIf="smsIdentity.errors && (smsIdentity.dirty || smsIdentity.touched)" class="error">
+                            <span [hidden]="!smsIdentity.errors.required">Mail Subject is required </span>
+                        </div>
+                    </div>
+                </div>
+              </div>
               <div class="row">
                   <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP' || campaignData.cdProduct == 'SMS') ">
                       <div class="form-group" style="margin-right:10px">
@@ -194,7 +214,6 @@
                         <div class="form-group" style="margin-left:10px">
                             <label>Mail Body</label>
                             <textarea id="mailBody"
-                                [class.notValid]="mailBody.errors && (mailBody.dirty || mailBody.touched)"
                                 [(ngModel)]="campaignData.mailBody"
                                 (ngModelChange)="doSomething(campaignData)"
                                 #mailBody="ngModel"

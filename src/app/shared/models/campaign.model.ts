@@ -4,6 +4,7 @@ export class Campaign {
     dsCampaign?: string;
     message: string;
     smsMessage: string;
+    smsIdentity: string;
     mailSubject: string;
     mailBody: string;
     tsPublication: any;         
@@ -13,7 +14,6 @@ export class Campaign {
     tsValidEnd: any;
     qtFreebee?: number;
     flExtra?: string;
-    smsIdentity ?: string;
     imageFileName ?: string;
     imageUrl?: string;
     campaignDetailsList? : {}
