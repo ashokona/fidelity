@@ -10,7 +10,7 @@ export class HomeService {
   ) { }
   
   queryActiveCampaigns(body){
-    let path = 'campaign/stat'
+    let path = 'stat'
     return this.apiService.post(path,body)
                     .map(data =>{
                       return data
@@ -41,7 +41,7 @@ export class HomeService {
 
   disableSelectedCampaign(id){
     var path = '​campaign/abort/'+id;
-    return this.apiService.get(path)
+    return this.apiService.put(path)
                           .map(data =>{
                             return data
                           })

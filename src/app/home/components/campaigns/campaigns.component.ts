@@ -120,13 +120,13 @@ export class CampaignsComponent implements OnInit {
     if (event.isSelected === null) {
       this.selectedCampaignsList = []
       event.selected.forEach(element => {
-        this.selectedCampaignsList.push(element.idCard)
+        this.selectedCampaignsList.push(element.idCampaign)
       });
     }
     else {
-      var index = this.selectedCampaignsList.indexOf(event.data.idCard);
+      var index = this.selectedCampaignsList.indexOf(event.data.idCampaign);
       if (event.isSelected && (index === -1)) {
-        this.selectedCampaignsList.push(event.data.idCard);
+        this.selectedCampaignsList.push(event.data.idCampaign);
       }
       else {
         this.selectedCampaignsList.splice(index, 1);
@@ -216,7 +216,7 @@ export class CampaignsComponent implements OnInit {
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
         this.isLoading = true;
-        this.homeService.disableSelectedCard(event.data.idCard)
+        this.homeService.disableSelectedCampaign(event.data.idCampaign)
                         .subscribe(res=>{
                           if(res.statusCode == 'OK'){
                             this.isLoading = false;

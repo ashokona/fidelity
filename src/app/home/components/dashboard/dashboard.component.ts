@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   filterData: filterData;
   campaignStatusList:IMultiSelectOption;
   timeRangeData:any[];
+  activeCampaignsData:any;
 
   constructor(
     private homeService: HomeService,
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
       status: [],
       idCard:'',
     }
+    this.activeCampaignsData = ''
   }
 
   ngOnInit() {
@@ -58,11 +60,11 @@ export class DashboardComponent implements OnInit {
     console.log(data);
     this.homeService.queryActiveCampaigns(data).subscribe(
       res =>{
+        this.activeCampaignsData =res.data;
         console.log(res);
       }
     )
   }
-
   downloadXls(){
     this.homeService.downloadXls().subscribe(
       res =>{
