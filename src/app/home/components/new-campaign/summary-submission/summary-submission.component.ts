@@ -63,6 +63,7 @@ export class SummarySubmissionComponent implements OnInit {
         this.otherCampaignData.totalSms = res.data.smsNumber * this.xlsImportData.campaignDetailsList.length
         this.otherCampaignData.goodies = this.campaignCredits.qtFreebe * this.xlsImportData.campaignDetailsList.length
         this.otherCampaignData.ticCost = res.data.campaignCredits
+        this.campaignData.smsMessage = res.data.substring(0, 160);
       }
     )
   }

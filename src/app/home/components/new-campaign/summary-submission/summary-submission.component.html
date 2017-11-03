@@ -7,57 +7,63 @@
                           <!-- <p class="category">Are you looking for more components? Please check our Premium Version of Paper Dashboard Pro.</p> -->
                           <br>
                       </div>
-                      <div class="content table-responsive table-full-width table-upgrade">
-                          <table class="table">
-                              <thead>
-                                  <th></th>
-                                  <th></th>
-                                <!-- <th class="text-center">Free</th> -->
-                                <!-- <th class="text-center">PRO</th> -->
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                    <td>Title</td>
-                                    <td>{{campaignData.dsCampaign}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Type</td>
-                                    <td>{{campaignData.cdProduct}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Validity</td>
-                                    <td>{{campaignData.tsValidStart | date: dateFormat }}<span>--></span>{{campaignData.tsValidEnd | date: dateFormat}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Printing</td>
-                                    <td>{{campaignData.tsPrintingStart | date: dateFormat}}<span>--></span>{{campaignData.tsPrintingStart | date: dateFormat}}</td>
-                                  </tr>  
-                                  <tr>
-                                    <td>Publishing</td>
-                                    <td>{{campaignData.tsPublication | date: dateFormat}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>SMS Message</td>
-                                    <td>{{campaignData.smsMessage}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Mail Subject</td>
-                                    <td>{{campaignData.mailSubject}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Total SMS/EMail</td>
-                                    <td>{{otherCampaignData.totalSms}}</td>
-                                  </tr>  
-                                  <tr>
-                                    <td>Goodies</td>
-                                    <td>{{otherCampaignData.goodies}}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Tic cost</td>
-                                    <td>{{otherCampaignData.ticCost}}</td>
-                                  </tr>                                
-                              </tbody>
-                          </table>
+                      <div class="datatable-main">
+                        <div class="content table-responsive table-full-width table-upgrade">
+                            <table class="table">
+                                <thead>
+                                    <th></th>
+                                    <th></th>
+                                  <!-- <th class="text-center">Free</th> -->
+                                  <!-- <th class="text-center">PRO</th> -->
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                      <td>Title</td>
+                                      <td>{{campaignData.dsCampaign}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Type</td>
+                                      <td>{{campaignData.cdProduct}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Validity</td>
+                                      <td>{{campaignData.tsValidStart | date: dateFormat }}<span>--></span>{{campaignData.tsValidEnd | date: dateFormat}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Printing</td>
+                                      <td>{{campaignData.tsPrintingStart | date: dateFormat}}<span>--></span>{{campaignData.tsPrintingStart | date: dateFormat}}</td>
+                                    </tr>  
+                                    <tr>
+                                      <td>Publishing</td>
+                                      <td>{{campaignData.tsPublication | date: dateFormat}}</td>
+                                    </tr>
+                                    <tr *ngIf="campaignData.smsMessage">
+                                      <td>SMS Message</td>
+                                      <td class="summary-table-row smsmessage-data">
+                                        <textarea>{{campaignData.smsMessage}}</textarea>
+                                      </td>
+                                    </tr>
+                                    <tr *ngIf="campaignData.mailSubject">
+                                      <td>Mail Subject</td>
+                                      <td class="mailsubject-data">
+                                        <textarea>{{campaignData.mailSubject}}</textarea>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>Total SMS/EMail</td>
+                                      <td>{{otherCampaignData.totalSms}}</td>
+                                    </tr>  
+                                    <tr>
+                                      <td>Goodies</td>
+                                      <td>{{otherCampaignData.goodies}}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Tic cost</td>
+                                      <td>{{otherCampaignData.ticCost}}</td>
+                                    </tr>                                
+                                </tbody>
+                            </table>
+                        </div>
                       </div>
                   </div>
               </div>

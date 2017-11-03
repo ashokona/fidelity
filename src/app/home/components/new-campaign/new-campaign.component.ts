@@ -152,6 +152,7 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
     this.newCampaign.tsPrintingEnd = parseInt((new Date(this.newCampaign.tsPrintingEnd).getTime()).toFixed(0));
     this.newCampaign.tsValidStart = parseInt((new Date(this.newCampaign.tsValidStart).getTime()).toFixed(0));
     this.newCampaign.tsValidEnd = parseInt((new Date(this.newCampaign.tsValidEnd).getTime()).toFixed(0));
+    this.newCampaign.smsMessage = this.newCampaign.smsMessage.substring(0, 160);
     this.homeService.addNewCampaign(this.newCampaign).subscribe(res=>{
       if(res.statusCode == "OK"){
         this.multiStepService.setCampaignData('');

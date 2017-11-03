@@ -32,6 +32,7 @@ import { CampaignDataComponent } from './components/new-campaign/campaign-data/c
 import { CardsImportComponent } from './components/new-campaign/cards-import/cards-import.component';
 import { ImageImportComponent } from './components/new-campaign/image-import/image-import.component';
 import { SummarySubmissionComponent } from './components/new-campaign/summary-submission/summary-submission.component';
+import { CampaignViewComponent } from './components/campaigns/campaign-view/campaign-view.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,7 @@ import { SummarySubmissionComponent } from './components/new-campaign/summary-su
     FooterComponent,
     DashboardComponent, 
     DateFormatPipe,
-    SideNavComponent, CardsComponent, CampaignsComponent, NewCampaignComponent, SettingsComponent, TableCheckBoxComponent, CampaignDataComponent, CardsImportComponent, ImageImportComponent, SummarySubmissionComponent
+    SideNavComponent, CardsComponent, CampaignsComponent, NewCampaignComponent, SettingsComponent, TableCheckBoxComponent, CampaignDataComponent, CardsImportComponent, ImageImportComponent, SummarySubmissionComponent, CampaignViewComponent
   ],
   providers: [
     HomeService,

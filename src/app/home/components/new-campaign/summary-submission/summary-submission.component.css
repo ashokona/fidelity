@@ -1,0 +1,13 @@
+.summary-table-row{
+    width:95%;
+}
+.smsmessage-data textarea, .mailsubject-data textarea {
+    width: 100%;
+    border: 0px;
+    height: auto;
+    max-height: 150px;
+    min-height: 30px;
+    overflow-y: hidden;
+    pointer-events: none;
+    vertical-align: middle;
+}

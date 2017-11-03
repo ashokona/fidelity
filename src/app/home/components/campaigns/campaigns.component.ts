@@ -49,12 +49,24 @@ export class CampaignsComponent implements OnInit {
   settings = {
     selectMode: 'multi',
     columns: {
-      idCampaign: {
-        title: 'Campaign Code'
+      tsPublication: {
+        title: 'Publishing'
+      },
+      dsCampaign: {
+        title: 'Description'
+      },
+      tsPrintingStart: {
+        title: 'Start'
       },
       cdProduct: {
-        title: 'Campign Product'
+        title: 'Pr'
       },
+      // statisticsSent: {
+      //   title: 'snt'
+      // },
+      // statisticsPrinted: {
+      //   title: 'Prn'
+      // },
       cdStatus: {
         title: 'Status'
       }
@@ -178,7 +190,7 @@ export class CampaignsComponent implements OnInit {
       accept: () => {
         this.isLoading = true;
         this.selectedCampaignsList.forEach(campaign => {
-          this.homeService.disableSelectedCard(campaign)
+          this.homeService.disableSelectedCampaign(campaign)
                           .subscribe(res=>{
                             if(res.statusCode == 'OK'){
                               this.isLoading = false;
@@ -189,6 +201,8 @@ export class CampaignsComponent implements OnInit {
                               this._service.error('Campagin Status not Changed ', '', this.errorOptions);
                             }
                           }, err=> {
+
+                            this.isLoading = false;
                             console.log(err)
                           })
                         
@@ -282,6 +296,7 @@ export class CampaignsComponent implements OnInit {
     }
     this.homeService.getCampaigns(body)
       .subscribe(res => {
+        console.log(res.data)
         this.campaignsList = res.data;
         this.isLoading = false;
         this.source = new LocalDataSource(this.campaignsList);
@@ -294,8 +309,8 @@ export class CampaignsComponent implements OnInit {
    
     this.initCampaignsList(0,99999999999999, '')
 
-    var statusPath = "select/campaignStatus"
-    this.homeService.campaignStatus(statusPath)
+    
+    this.homeService.campaignStatus()
       .subscribe(res => {
         this.campaignStatusList = res;
         this.campaignStatusList.push({value:'',description:'All Status'})

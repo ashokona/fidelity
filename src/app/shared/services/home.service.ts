@@ -8,6 +8,21 @@ export class HomeService {
   constructor(
     private apiService : ApiService
   ) { }
+  
+  queryActiveCampaigns(body){
+    let path = 'campaign/stat'
+    return this.apiService.post(path,body)
+                    .map(data =>{
+                      return data
+                    })
+  }
+  downloadXls(){
+    let path = 'campaign/drilldown'
+    return this.apiService.post(path)
+                    .map(data =>{
+                      return data
+                    })
+  }
 
   queryCards(path, body){
     return this.apiService.post(path,body)
@@ -24,9 +39,17 @@ export class HomeService {
                           })
   }
 
+  disableSelectedCampaign(id){
+    var path = '​campaign/abort/'+id;
+    return this.apiService.get(path)
+                          .map(data =>{
+                            return data
+                          })
+  }
+
   disableSelectedCard(id){
     var path = 'card/'+id+'/disable'
-    return this.apiService.get(path)
+    return this.apiService.put(path)
                           .map(data =>{
                             return data
                           })
@@ -79,7 +102,8 @@ export class HomeService {
                           })
   }
 
-  campaignStatus(path){
+  campaignStatus(){
+    var path = "select/campaignStatus"
     return this.apiService.get(path)
                           .map(data =>{
                             return data
