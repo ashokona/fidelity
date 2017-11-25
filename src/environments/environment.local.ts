@@ -1,6 +1,6 @@
 export const environment = {
-  production: true,
-  api_url: 'http://52.59.47.73/fd/rest/',
+  production: false,
+  api_url : 'http://localhost:8080/fd/rest/',
   dateFormat: 'DD-MM-YYYY HH:mm',
   summaryFormat: 'dd-MM-yyyy HH:mm'
 };

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Headers, Http, Response, URLSearchParams } from '@angular/http';
+import { Headers, Http, Response, URLSearchParams,RequestOptions ,ResponseContentType} from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -73,6 +73,28 @@ export class ApiService {
     )
       .map((res: Response) => res.json())
       .catch((error: Response) => {
+        if (error.status == 401) {
+          this.userservice.purgeAuth();          
+          this.route.navigate(['']);
+        }
+        return Observable.throw(error.json());
+      });
+    //.catch(this.formatErrors)
+  }
+
+  post1(path: string, body: Object = {}): Observable<Blob> {
+    let headers = new Headers({ 'Content-Type': 'application/json',  'Authorization' :`Bearer ${this.jwtService.getToken()}` });
+    let options = new RequestOptions({headers: headers,
+      responseType: ResponseContentType.Blob,
+    });
+    return this.http.post(
+      `${environment.api_url}${path}`,
+      JSON.stringify(body),
+       options
+    )
+      .map(res => res.blob())
+      .catch((error) => {
+        console.log(error)
         if (error.status == 401) {
           this.userservice.purgeAuth();          
           this.route.navigate(['']);

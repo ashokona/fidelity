@@ -1,70 +1,70 @@
 <loaders-css [loader]="'square-spin'" *ngIf="isLoading" [loaderClass]="'my-loader'"></loaders-css>
 <div class="row" *ngIf="!isLoading">
     <div class="col-md-8 col-md-offset-2">
-                  <div class="card">
-                      <div class="header text-center">
-                          <h3 class="title">Summary</h3>
-                          <!-- <p class="category">Are you looking for more components? Please check our Premium Version of Paper Dashboard Pro.</p> -->
-                          <br>
-                      </div>
-                      <div class="datatable-main">
-                        <div class="content table-responsive table-full-width table-upgrade">
-                            <table class="table">
-                                <thead>
-                                    <th></th>
-                                    <th></th>
-                                  <!-- <th class="text-center">Free</th> -->
-                                  <!-- <th class="text-center">PRO</th> -->
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                      <td>Title</td>
-                                      <td>{{campaignData.dsCampaign}}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Type</td>
-                                      <td>{{campaignData.cdProduct}}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Validity</td>
-                                      <td>{{campaignData.tsValidStart | date: dateFormat }}<span>--></span>{{campaignData.tsValidEnd | date: dateFormat}}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Printing</td>
-                                      <td>{{campaignData.tsPrintingStart | date: dateFormat}}<span>--></span>{{campaignData.tsPrintingStart | date: dateFormat}}</td>
-                                    </tr>  
-                                    <tr>
-                                      <td>Publishing</td>
-                                      <td>{{campaignData.tsPublication | date: dateFormat}}</td>
-                                    </tr>
-                                    <tr *ngIf="campaignData.smsMessage">
-                                      <td>SMS Message</td>
-                                      <td class="summary-table-row smsmessage-data">
-                                        <textarea>{{campaignData.smsMessage}}</textarea>
-                                      </td>
-                                    </tr>
-                                    <tr *ngIf="campaignData.mailSubject">
-                                      <td>Mail Subject</td>
-                                      <td class="mailsubject-data">
-                                        <textarea>{{campaignData.mailSubject}}</textarea>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>Total SMS/EMail</td>
-                                      <td>{{otherCampaignData.totalSms}}</td>
-                                    </tr>  
-                                    <tr>
-                                      <td>Goodies</td>
-                                      <td>{{otherCampaignData.goodies}}</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Tic cost</td>
-                                      <td>{{otherCampaignData.ticCost}}</td>
-                                    </tr>                                
-                                </tbody>
-                            </table>
-                        </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+        <div class="card">
+            <div class="header text-center">
+                <h3 class="title">Summary</h3>
+                <!-- <p class="category">Are you looking for more components? Please check our Premium Version of Paper Dashboard Pro.</p> -->
+                <br>
+            </div>
+            <div class="datatable-main">
+                <div class="content table-responsive table-full-width table-upgrade">
+                    <table class="table">
+                        <thead>
+                            <th></th>
+                            <th></th>
+                            <!-- <th class="text-center">Free</th> -->
+                            <!-- <th class="text-center">PRO</th> -->
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Title</td>
+                                <td>{{campaignData.dsCampaign}}</td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>{{campaignData.cdProduct}}</td>
+                            </tr>
+                            <tr>
+                                <td>Publishing</td>
+                                <td>{{campaignData.tsPublication | date: dateFormat}}</td>
+                            </tr>
+                            <tr>
+                                <td>Printing</td>
+                                <td>{{campaignData.tsPrintingStart | date: dateFormat}}<span>--></span>{{campaignData.tsPrintingEnd | date: dateFormat}}</td>
+                            </tr>
+                            <tr>
+                                <td>Validity</td>
+                                <td>{{campaignData.tsValidStart | date: dateFormat }}<span>--></span>{{campaignData.tsValidEnd | date: dateFormat}}</td>
+                            </tr>
+                            <tr *ngIf="campaignData.smsMessage">
+                                <td>SMS Message</td>
+                                <td class="summary-table-row smsmessage-data">
+                                    <textarea>{{campaignData.smsMessage}}</textarea>
+                                </td>
+                            </tr>
+                            <tr *ngIf="campaignData.mailSubject">
+                                <td>Mail Subject</td>
+                                <td class="mailsubject-data">
+                                    <textarea>{{campaignData.mailSubject}}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total SMS/EMail</td>
+                                <td>{{otherCampaignData?.totalSms}}</td>
+                            </tr>
+                            <tr>
+                                <td>Goodies</td>
+                                <td>{{otherCampaignData?.goodies}}</td>
+                            </tr>
+                            <tr>
+                                <td>Tic cost</td>
+                                <td>{{otherCampaignData?.ticCost}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

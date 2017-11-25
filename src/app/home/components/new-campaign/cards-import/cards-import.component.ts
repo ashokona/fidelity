@@ -103,8 +103,8 @@ export class CardsImportComponent implements OnInit, OnDestroy {
     this.filename = file.name;
     const formData = new FormData();
     formData.append('fileXls', file);
-    formData.append('qtFreebe', '2');
-    formData.append('cdProduct', 'MS');
+    formData.append('qtFreebe', this.campaignData.qtFreebee);
+    formData.append('cdProduct', this.campaignData.cdProduct);
     let token = window.localStorage['jwtToken'];
     const headers = new Headers({
       'Authorization': `Bearer ${this.jwtService.getToken()}`
@@ -121,7 +121,7 @@ export class CardsImportComponent implements OnInit, OnDestroy {
           this.loadedCards = res.data
           this.rejectedCards = res.infoMessages
           this.xlsImportDetails.cdProduct = this.campaignData.cdProduct;
-          this.xlsImportDetails.qtFreebee = 2;
+          this.xlsImportDetails.qtFreebee = this.campaignData.qtFreebee;
           this.xlsImportDetails.campaignDetailsList = res.data;
           this.xlsImportDetails.rejectedCardsList = res.infoMessages;
           this.multiStepService.setCardsData(this.xlsImportDetails);
@@ -134,8 +134,8 @@ export class CardsImportComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this._service.error('Some error  occured', 'Contact administrator', this.errorOptions);
         }
- 
-      }, 
+
+      },
       err=> {
         console.log(err)
     })

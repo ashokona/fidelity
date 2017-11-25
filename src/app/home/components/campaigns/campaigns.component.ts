@@ -6,9 +6,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router'
 import { NotificationsService } from 'angular2-notifications-lite';
-
+import * as moment from 'moment';
 import { RouteService } from '../../../shared/services/route.service';
 import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-campaigns',
@@ -27,8 +28,9 @@ export class CampaignsComponent implements OnInit {
   campaignsList: any[];
   filterData: filterData;
   isAllSelected: string;
-
+  campaignType: any[];
   selectedCampaignsList: any[] = [];
+  dateFormat : string;
 
   public successOptions = {
     timeOut: 5000,
@@ -58,8 +60,8 @@ export class CampaignsComponent implements OnInit {
       tsPrintingStart: {
         title: 'Start'
       },
-      cdProduct: {
-        title: 'Pr'
+      cdProductDesc: {
+        title: 'Product'
       },
       // statisticsSent: {
       //   title: 'snt'
@@ -67,19 +69,27 @@ export class CampaignsComponent implements OnInit {
       // statisticsPrinted: {
       //   title: 'Prn'
       // },
-      cdStatus: {
+      cdStatusDesc: {
         title: 'Status'
       }
     },
     actions: {
       custom: [
         {
-          name: 'duplicate',
-          title: 'Suspend ',
+          name: 'status',
+          title: '<i class="fa fa-cog" aria-hidden="true"></i>',
         },
+        {
+          name: 'view',
+          title: '<i class="fa fa-eye" aria-hidden="true"></i>',
+        },
+        {
+          name: 'delete',
+          title: '<i class="fa fa-trash" aria-hidden="true"></i>',
+        }
       ],
-      delete: true,
       edit:false,
+      delete: false,
       position:'right'
     },
     hideSubHeader: true,
@@ -100,7 +110,7 @@ export class CampaignsComponent implements OnInit {
     private router : Router,
     private routeService : RouteService
   ) {
-
+    this.dateFormat = environment.dateFormat;
     this.timeRangeData = [
       { id: 1, name: "All" },
       { id: 2, name: "Last Month" },
@@ -134,7 +144,7 @@ export class CampaignsComponent implements OnInit {
     }
   }
 
-  onDelete(event) {
+  DeleteCampaign(event) {
     this.confirmationService.confirm({
       message: 'Are you sure that you want to perform this action?',
       accept: () => {
@@ -201,7 +211,6 @@ export class CampaignsComponent implements OnInit {
                               this._service.error('Campagin Status not Changed ', '', this.errorOptions);
                             }
                           }, err=> {
-
                             this.isLoading = false;
                             console.log(err)
                           })
@@ -212,25 +221,35 @@ export class CampaignsComponent implements OnInit {
 
   }
   onCustom(event) {
-    this.confirmationService.confirm({
-      message: 'Are you sure that you want to perform this action?',
-      accept: () => {
-        this.isLoading = true;
-        this.homeService.disableSelectedCampaign(event.data.idCampaign)
-                        .subscribe(res=>{
-                          if(res.statusCode == 'OK'){
+    console.log(event.action);
+    if(event.action === 'status'){
+      this.confirmationService.confirm({
+        message: 'Are you sure that you want to abort this card?',
+        accept: () => {
+          this.isLoading = true;
+          this.homeService.disableSelectedCampaign(event.data.idCampaign)
+                          .subscribe(res=>{
+                            if(res.statusCode == 'OK'){
+                              this.isLoading = false;
+                              this._service.success('Card Status Changed ', '', this.successOptions);
+                              this.initCampaignsList(0,99999999999999, '')
+                            }else{
+                              this.isLoading = false;
+                              this._service.error('Card Status not Changed ', '', this.errorOptions);
+                            }
+                          }, err=> {
                             this.isLoading = false;
-                            this._service.success('Card Status Changed ', '', this.successOptions);
-                            this.initCampaignsList(0,99999999999999, '')
-                          }else{
-                            this.isLoading = false;
-                            this._service.error('Card Status not Changed ', '', this.errorOptions);
-                          }
-                        }, err=> {
-                          console.log(err)
-                        })
-      }
-    });
+                            console.log(err)
+                          })
+        }
+      });
+    }if(event.action === 'delete'){
+      this.DeleteCampaign(event);
+    }if(event.action === 'view'){
+      // console.log(event.data.idCampaign);
+      this.router.navigate(['home/viewcampaign'], { queryParams: {id:event.data.idCampaign} });
+    }
+    
 
   }
   filterCards(toDate, fromDate, status) {
@@ -296,28 +315,62 @@ export class CampaignsComponent implements OnInit {
     }
     this.homeService.getCampaigns(body)
       .subscribe(res => {
-        console.log(res.data)
-        this.campaignsList = res.data;
-        this.isLoading = false;
-        this.source = new LocalDataSource(this.campaignsList);
+        if(res.statusCode === 'OK'){  
+          this.changeCampaignListData(res.data)
+          this.isLoading = false;
+        }else{
+          this.isLoading = false;
+          this.campaignsList = [];
+          this.source = new LocalDataSource(this.campaignsList);  
+        }
       }, err => {
         console.log(err)
       }
       )
   }
+
+  changeCampaignListData(campaignsList){
+    campaignsList.forEach(element => {
+      this.campaignStatusList.forEach(campaignStatus => {
+        if(campaignStatus.value === element.cdStatus){
+          element.cdStatusDesc = campaignStatus.description
+        }
+      });
+      this.campaignType.forEach(type => {
+        if(type.value === element.cdProduct){
+          element.cdProductDesc = type.description
+        }
+      });
+      element.tsPublication = moment(element.tsPublication).format(this.dateFormat);
+      element.tsPrintingStart = moment(element.tsPrintingStart).format(this.dateFormat);
+    });
+    console.log(campaignsList)
+    this.campaignsList = campaignsList
+    this.source = new LocalDataSource(this.campaignsList);  
+  }
+  formatdate(){
+    console.log(this.dateFormat);
+    console.log()
+  }
   ngOnInit() {
    
     this.initCampaignsList(0,99999999999999, '')
-
+    this.formatdate()
     
     this.homeService.campaignStatus()
       .subscribe(res => {
+        console.log(res);
         this.campaignStatusList = res;
         this.campaignStatusList.push({value:'',description:'All Status'})
       }, err => {
         console.log(err)
       }
     )
+
+    this.homeService.productTypeList().subscribe(data=>{
+      this.campaignType = data;
+      console.log(data);
+    });
       
       
   }

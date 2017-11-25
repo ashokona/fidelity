@@ -21,61 +21,67 @@ export class SummarySubmissionComponent implements OnInit {
   imageData:any;
   campaignCredits : CampaignCredits;
   dateFormat : string;
+  authorized: boolean;
   constructor(
     private multiStepService : MultiStepService,
     private homeService : HomeService
-  ) { 
+  ) {
     this.dateFormat = environment.summaryFormat;
+    this.authorized = false;
     this.campaignCredits = {
       cdProduct : '',
       nrCustomer : 0,
       qtFreebe : 0,
       smsMessage : ''
-    }
+    };
     this.otherCampaignData = {
       totalSms : 0,
       goodies : 0,
       ticCost : 0
-    }
+    };
     this.subscription = this.multiStepService.campaignData.subscribe(
       data => {
-        this.campaignData = data;   
+        this.campaignData = data;
       }
     );
     this.subscription = this.multiStepService.campaignCards.subscribe(
       data => {
-        this.xlsImportData = data
+        this.xlsImportData = data;
       }
     );
     this.subscription = this.multiStepService.campaignImage.subscribe(
-      data => {        
-        
+      data => {
+
       }
     );
   }
   initCampaignCredits(){
-    this.campaignCredits.cdProduct = this.campaignData.cdProduct
-    this.campaignCredits.nrCustomer = this.xlsImportData.campaignDetailsList.length
-    this.campaignCredits.qtFreebe = 1
-    this.campaignCredits.smsMessage = this.campaignData.smsMessage
+    this.campaignCredits.cdProduct = this.campaignData.cdProduct;
+    this.campaignCredits.nrCustomer = this.xlsImportData.campaignDetailsList.length;
+    this.campaignCredits.qtFreebe = this.campaignData.qtFreebee;
+    this.campaignCredits.smsMessage = this.campaignData.smsMessage;
     this.homeService.campaignCredits(this.campaignCredits).subscribe(
       res =>{
-        this.otherCampaignData.totalSms = res.data.smsNumber * this.xlsImportData.campaignDetailsList.length
-        this.otherCampaignData.goodies = this.campaignCredits.qtFreebe * this.xlsImportData.campaignDetailsList.length
-        this.otherCampaignData.ticCost = res.data.campaignCredits
-        this.campaignData.smsMessage = res.data.substring(0, 160);
+        this.otherCampaignData.totalSms = res.data.smsNumber * this.xlsImportData.campaignDetailsList.length;
+        this.otherCampaignData.goodies = this.campaignCredits.qtFreebe * this.xlsImportData.campaignDetailsList.length;
+        this.otherCampaignData.ticCost = res.data.campaignCredits;
+        this.otherCampaignData.totalSms = res.data.smsNumber;
+        this.authorized = res.data.authorized;
+        this.multiStepService.setDoneButtonState(!this.authorized);
       }
-    )
+    );
   }
   ngOnInit() {
-    this.initCampaignCredits()
+    this.initCampaignCredits();
 
   }
   ngOnDestroy(){
-
+    // this.multiStepService.setCampaignData('');
+    // this.multiStepService.setCardsData({qtFreebee:undefined,cdProduct:undefined,campaignDetailsList:[],rejectedCardsList:[]});
+    // this.multiStepService.setImageData({imageUrl:'',imageFileName:''});
   }
 
-  
+
 }
 
 interface CampaignCredits{

@@ -1,3 +1,123 @@
-<p>
-  campaign-view works!
-</p>
+<loaders-css [loader]="'square-spin'" *ngIf="isLoading" [loaderClass]="'my-loader'"></loaders-css>
+<div class="card" *ngIf="!isLoading">
+    <div class="header">
+        <h4 class="title">Campaign Details</h4>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-fill btn-wd" (click)="downloadCampaign()">Download</button>
+    </div>
+    <div class="content">
+        <form name="campaignData" #campaignDataForm="ngForm" novalidate>
+
+            <div class="header">
+                <ul class="nav nav-tabs">
+                    <li class="title" [class.active]="viewCampaignData"><a (click)="showCampaignData()">Campaign Data</a></li>
+                    <li class="title" [class.active]="viewCampaignCards"><a (click)="showCampaignCards()">Campaign Cards</a></li>
+                    <li class="title" [class.active]="viewCampaignImage"><a (click)="showCampaignImage()">Campaign Image</a></li>
+                </ul>
+                <!-- <h4 class="title">Loaded</h4>
+            <h4 class="title">Loaded</h4> -->
+            </div>
+            <div class="content table-responsive table-full-width" *ngIf="viewCampaignData">
+                <table class="table table-striped">
+                    <thead>
+                        <th></th>
+                        <th></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Title</td>
+                            <td>{{campaignData.dsCampaign}}</td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td>{{campaignData.cdProduct}}</td>
+                        </tr>
+                        <tr>
+                            <td>Validity</td>
+                            <td>{{campaignData.tsValidStart | date: dateFormat }}<span>--></span>{{campaignData.tsValidEnd | date: dateFormat}}</td>
+                        </tr>
+                        <tr>
+                            <td>Printing</td>
+                            <td>{{campaignData.tsPrintingStart | date: dateFormat}}<span>--></span>{{campaignData.tsPrintingStart | date: dateFormat}}</td>
+                        </tr>
+                        <tr>
+                            <td>Publishing</td>
+                            <td>{{campaignData.tsPublication | date: dateFormat}}</td>
+                        </tr>
+                        <tr *ngIf="campaignData.smsMessage">
+                            <td>SMS Message</td>
+                            <td class="summary-table-row smsmessage-data">
+                                <textarea>{{campaignData.smsMessage}}</textarea>
+                            </td>
+                        </tr>
+                        <tr *ngIf="campaignData.mailSubject">
+                            <td>Mail Subject</td>
+                            <td class="mailsubject-data">
+                                <textarea>{{campaignData.mailSubject}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total SMS/EMail</td>
+                            <td>{{campaignData.statistics.sent}}</td>
+                        </tr>
+                        <!-- <tr>
+                          <td>Goodies</td>
+                          <td>{{campaignData.statistics.sent}}</td>
+                        </tr>
+                        <tr>
+                          <td>Tic cost</td>
+                          <td>{{campaignData.statistics.sent}}</td>
+                        </tr>                                 -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="content table-responsive table-full-width" *ngIf="viewCampaignCards">
+
+                <table class="table table-striped">
+                    <thead>
+                        <th>Card Id</th>
+                        <th>Email</th>
+                        <th>Customer Id</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let loadedCard of campaignData.campaignDetailsList">
+                            <td>{{loadedCard.idCard}}</td>
+                            <td>{{loadedCard.email}}</td>
+                            <td>{{loadedCard.idCustomer}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content" *ngIf="viewCampaignImage">
+                <div class="row currentimg-main">
+                    <div class="col-md-12 col-sm-12 currentimg-left">
+                        <div class="image campaigndataimg">
+                            <img src="{{campaignData.imageUrl}}" alt="..." class="img-responsive" width="100px" height="570px" />
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-3 col-sm-3 currentimg-right" *ngIf="imageData.imageUrl">
+                        <div class="image campaigndataimg">
+                            <img src="assets/img/barcode.jpg" alt="..." class="img-responsive" width="100px" height="570px"/>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <!-- <div class="content">
+                    <div class="row currentimg-main">
+                        <div class="col-md-9 col-sm-9 currentimg-left">
+                            <div class="image campaigndataimg">
+                                <img src="{{imageData.imageUrl}}" alt="..." class="img-responsive" width="100px" height="570px"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 currentimg-right" *ngIf="imageData.imageUrl">
+                            <div class="image campaigndataimg">
+                                <img src="assets/img/barcode.jpg" alt="..." class="img-responsive" width="100px" height="570px"/>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>

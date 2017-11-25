@@ -25,6 +25,7 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
   nextButton: boolean = true;
   nextButtonState: boolean ;
   doneButton : boolean = false;
+  doneButtonState: boolean ;
   route: string ;
   newCampaign: Campaign;
   subscription: Subscription;
@@ -68,6 +69,17 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.subscription = this.multiStepService.campaignData.subscribe(
+      data => {
+        this.newCampaign = data;
+      }
+    );
+
+    this.subscription = this.multiStepService.isDoneButtonState.subscribe(
+      value => {
+        this.doneButtonState = value;
+      }
+    );
   }
 
 
@@ -86,47 +98,57 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
   }
 
   prvView(){
+
     if(this.route == 'cardimport'){
       this.prevButton = false;
       this.doneButton = false;
-      this.multiStepService.setCurrentRoute('data'); 
+      this.nextButton = true;
+      this.multiStepService.setCurrentRoute('data');
       this.router.navigate(['/home/newcampaigns/data']);
       this.changeDetection.detectChanges();
     }else if(this.route == 'imageimport'){
       this.doneButton = false;
-      this.multiStepService.setCurrentRoute('cardimport') 
+      this.nextButton = true;
+      this.multiStepService.setCurrentRoute('cardimport')
       this.router.navigate(['/home/newcampaigns/cardimport']);
       this.changeDetection.detectChanges();
-    }else if(this.route == 'summary'){
+    }else if(this.route == 'summary' && this.newCampaign.cdProduct === 'SMS'){
+      this.doneButton = false;
+      this.nextButton = true;
+      this.multiStepService.setCurrentRoute('cardimport')
+      this.router.navigate(['/home/newcampaigns/cardimport']);
+      this.changeDetection.detectChanges();
+    }else if(this.route == 'summary' && this.newCampaign.cdProduct !== 'SMS'){
       this.nextButton = true;
       this.doneButton = false;
-      this.multiStepService.setCurrentRoute('imageimport') 
+      this.multiStepService.setCurrentRoute('imageimport')
       this.router.navigate(['/home/newcampaigns/imageimport']);
-      this.changeDetection.detectChanges();     
+      this.changeDetection.detectChanges();
     }
-    
+
   }
   nxtView(){
-    if(this.route === 'data'){    
+    if(this.route === 'data'){
       this.prevButton = true;
       this.multiStepService.setCurrentRoute('cardimport')
       this.router.navigate(['/home/newcampaigns/cardimport']);
-    }else if(this.route === 'cardimport'){    
-      this.multiStepService.setCurrentRoute('imageimport')
-      this.router.navigate(['/home/newcampaigns/imageimport'])  
-    }else if(this.route === 'imageimport'){   
+    }else if(this.route === 'cardimport' && this.newCampaign.cdProduct === 'SMS'){
       this.nextButton = false;
       this.doneButton = true;
-      this.multiStepService.setCurrentRoute('summary') 
-      this.router.navigate(['/home/newcampaigns/summary'])  
+      this.multiStepService.setCurrentRoute('summary')
+      this.router.navigate(['/home/newcampaigns/summary'])
+    }else if(this.route === 'cardimport' && this.newCampaign.cdProduct !== 'SMS'){
+      this.multiStepService.setCurrentRoute('imageimport')
+      this.router.navigate(['/home/newcampaigns/imageimport'])
+    }else if(this.route === 'imageimport'){
+      this.nextButton = false;
+      this.doneButton = true;
+      this.multiStepService.setCurrentRoute('summary')
+      this.router.navigate(['/home/newcampaigns/summary'])
     }
   }
   done(){
-    this.subscription = this.multiStepService.campaignData.subscribe(
-      data => {
-        this.newCampaign = data;
-      }
-    );
+
     this.subscription = this.multiStepService.campaignCards.subscribe(
       data => {
         this.cardsData = data;
@@ -138,43 +160,45 @@ export class NewCampaignComponent implements OnInit, OnDestroy {
 
       }
     );
-    //xls import data 
+    //xls import data
     this.newCampaign.campaignDetailsList = this.cardsData.campaignDetailsList
-    this.newCampaign.qtFreebee = this.cardsData.qtFreebee;
+    //this.newCampaign.qtFreebee = this.cardsData.qtFreebee;
 
     //image data
     this.newCampaign.imageUrl = this.imageData .imageUrl;
     this.newCampaign.imageFileName = this.imageData.imageFileName;
 
-    this.newCampaign.idPremise = 5
+    // this.newCampaign.idPremise = 5
     this.newCampaign.tsPublication = parseInt((new Date(this.newCampaign.tsPublication).getTime()).toFixed(0));
     this.newCampaign.tsPrintingStart = parseInt((new Date(this.newCampaign.tsPrintingStart).getTime()).toFixed(0));
     this.newCampaign.tsPrintingEnd = parseInt((new Date(this.newCampaign.tsPrintingEnd).getTime()).toFixed(0));
     this.newCampaign.tsValidStart = parseInt((new Date(this.newCampaign.tsValidStart).getTime()).toFixed(0));
     this.newCampaign.tsValidEnd = parseInt((new Date(this.newCampaign.tsValidEnd).getTime()).toFixed(0));
-    this.newCampaign.smsMessage = this.newCampaign.smsMessage.substring(0, 160);
+
+    // this.newCampaign.smsMessage = this.newCampaign.smsMessage.substring(0, 160);
+
     this.homeService.addNewCampaign(this.newCampaign).subscribe(res=>{
       if(res.statusCode == "OK"){
         this.multiStepService.setCampaignData('');
         this.multiStepService.setCardsData({qtFreebee:undefined,cdProduct:undefined,campaignDetailsList:[],rejectedCardsList:[]});
         this.multiStepService.setImageData({imageUrl:'',imageFileName:''});
-        this.multiStepService.setCurrentRoute('data')     
+        this.multiStepService.setCurrentRoute('data')
         this.routeService.setCurrentRoute('campaigns')
         this.router.navigate(['/home/campaigns']);
         this._service.success('Campaign added sucessfully', '', this.successOptions);
         this.multiStepService.setSummaryData(res.data);
       }else if(res.statusCode == 'KO'){
-        this.multiStepService.setCurrentRoute('data') 
-        this.router.navigate(['/home/newcampaigns/data']) 
+        this.multiStepService.setCurrentRoute('data')
+        this.router.navigate(['/home/newcampaigns/data'])
         this._service.error('Incorrect data entered', 'Enter correct data', this.errorOptions);
       }
       else {
-        this.multiStepService.setCurrentRoute('data') 
-        this.router.navigate(['/home/newcampaigns/data']) 
+        this.multiStepService.setCurrentRoute('data')
+        this.router.navigate(['/home/newcampaigns/data'])
         this._service.error('Some error occured', 'Reenter data', this.errorOptions);
       }
     })
-  
+
   }
   ngOnInit() {
     if(this.prevButton == null){

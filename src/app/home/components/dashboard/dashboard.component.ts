@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { IMultiSelectOption, IMultiSelectTexts, IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 import { HomeService } from '../../../shared/services/home.service';
-
+import 'rxjs/Rx' ;
 import { NotificationsService } from 'angular2-notifications-lite';
 import { ConfirmDialogModule, ConfirmationService } from 'primeng/primeng';
+import {saveAs as importedSaveAs} from "file-saver";
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,7 @@ export class DashboardComponent implements OnInit {
   campaignStatusList:IMultiSelectOption;
   timeRangeData:any[];
   activeCampaignsData:any;
+  filterDataDetails: FilterDataDetails;
 
   constructor(
     private homeService: HomeService,
@@ -29,7 +31,12 @@ export class DashboardComponent implements OnInit {
       { id: 3, name: "Last Week" },
       { id: 4, name: "Yesterday" },
     ]
-
+    this.filterDataDetails = {
+      tsFrom: 0,
+      tsTo: 99999999999999,
+      status:​ ​ '',
+      idCard: ''
+    }
     this.filterData = {
       timeRange: 2,
       status: [],
@@ -57,24 +64,32 @@ export class DashboardComponent implements OnInit {
       status:​ ​ status,
       idCard:idCard
     }
-    console.log(data);
     this.homeService.queryActiveCampaigns(data).subscribe(
       res =>{
         this.activeCampaignsData =res.data;
-        console.log(res);
+        
       }
     )
   }
   downloadXls(){
-    this.homeService.downloadXls().subscribe(
+    this.homeService.downloadXls(this.filterDataDetails).subscribe(
       res =>{
-        console.log(res);
+        importedSaveAs(res);
+        // this.downloadFile(res)
+       // console.log(res);
+      },err =>{
+        console.log(err)
       }
     )
   }
 
+  downloadFile(data: Response){
+    var blob = new Blob([data], { type: 'text/csv' });
+    var url= window.URL.createObjectURL(blob);
+    window.open(url);
+  }
+
   searchData(data) {
-    console.log(data);
     var date = new Date();
     var yesterday = new Date();
     var lastWeek = new Date();
@@ -85,21 +100,25 @@ export class DashboardComponent implements OnInit {
     data.status.forEach(status => {
       statusList = statusList + status + ','
     });
-    console.log(statusList)
-    
+    this.filterDataDetails.status = statusList ; 
+    this.filterDataDetails.idCard =  data.idCard; 
     if (data.timeRange == 4) {
         yesterday.setDate(date.getDate() - 1);
         let fromDate = parseInt((new Date(yesterday).getTime()).toFixed(0));
+         this.filterDataDetails.tsFrom = fromDate ; 
+        
         this.initActiveCampaigns(0,fromDate,statusList,data.idCard)  
       }
       else if (data.timeRange == 3) {
         lastWeek.setDate(date.getDate() - 7);
         let fromDate = parseInt((new Date(lastWeek).getTime()).toFixed(0));
+        this.filterDataDetails.tsFrom = fromDate ; 
         this.initActiveCampaigns(0,fromDate,statusList,data.idCard)  
       }
       else if (data.timeRange == 2) {
         lastMonth.setDate(date.getDate() - 30);
         let fromDate = parseInt((new Date(lastMonth).getTime()).toFixed(0));
+        this.filterDataDetails.tsFrom = fromDate ; 
         this.initActiveCampaigns(0,fromDate,statusList,data.idCard)  
       } else if (data.timeRange == 1){    
         this.initActiveCampaigns(0,99999999999999,'','')
@@ -112,4 +131,11 @@ export interface filterData {
   timeRange: number;
   status: any[];
   idCard:String
+}
+
+interface FilterDataDetails {
+      tsFrom:number;
+      tsTo:number;
+      status:​ ​ String;
+      idCard:String
 }

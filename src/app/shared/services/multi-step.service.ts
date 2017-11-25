@@ -12,12 +12,15 @@ import { JwtService } from './jwt.service';
 
 @Injectable()
 export class MultiStepService {
-  
+
   private currentRouteSubject = new BehaviorSubject<any>('data');
   public currentRoute = this.currentRouteSubject.asObservable().distinctUntilChanged();
 
   private isNextButtonStateSubject = new ReplaySubject<boolean>(1);
   public isNextButtonState = this.isNextButtonStateSubject.asObservable();
+
+  private isDoneButtonStateSubject = new ReplaySubject<boolean>(1);
+  public isDoneButtonState = this.isDoneButtonStateSubject.asObservable();
 
 
   private campaignDataSubject = new BehaviorSubject<any>('');
@@ -41,7 +44,7 @@ export class MultiStepService {
   public setCurrentRoute(value){
     this.currentRouteSubject.next(value)
   }
-  
+
   public setCampaignData(data){
     this.campaignDataSubject.next(data);
   }
@@ -66,12 +69,16 @@ export class MultiStepService {
     this.isNextButtonStateSubject.next(value)
   }
 
+  public setDoneButtonState(value){
+    this.isDoneButtonStateSubject.next(value)
+  }
+
   public getNextButton(){
-    
+
   }
 
   public getDoneButton(){
-    
+
   }
 }
 

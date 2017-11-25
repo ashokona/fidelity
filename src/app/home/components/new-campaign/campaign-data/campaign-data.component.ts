@@ -11,16 +11,17 @@ import { FormDataService } from '../formservice.service';
 import { Subscription }   from 'rxjs/Subscription';
 import  {format}  from 'date-fns';
 import { environment } from '../../../../../environments/environment';
+import {SelectModel} from "../../../../shared/models/select.model";
 declare var tinymce: any;
 
 @Component({
   selector: 'app-campaign-data',
   templateUrl: './campaign-data.component.html',
   styleUrls: ['./campaign-data.component.css'],
-  
+
 })
 export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
-  
+
   @Output() onEditorKeyup = new EventEmitter<any>();
 
   editor;
@@ -30,24 +31,22 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription: Subscription;
   maxlength=160;
   characterleft=this.maxlength;
-  inputFieldsCount: number = 10;
+  inputFieldsCount: number = 13;
   dateOptions = {
     autoclose: true,
   }
-  campaignType = [
-    {name:'M'},
-    {name:'MS'},
-    {name:'MSP'},
-    {name:'SMS'},
-  ]
-  
+  campaignType : SelectModel;
+  todayDate = new Date();
+  smsIdentityList : SelectModel;
+  premiseList: SelectModel;
+
   constructor(
     private multiStepService : MultiStepService,
     private homeService : HomeService,
     private changeDetection : ChangeDetectorRef,
     public formService : FormDataService,
     private formBuilder: FormBuilder
-  ) { 
+  ) {
     this.dateFormat = 'YYYY-MM-DD HH:mm'
     this.subscription = this.multiStepService.campaignData.subscribe(
       data => {
@@ -56,20 +55,7 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
           this.multiStepService.setNextButtonState(false);
         }
         else{
-          this.campaignData = {
-            cdProduct: '',
-            dsCampaign: '',
-            message: '',
-            smsMessage: '',
-            mailSubject: '',
-            mailBody: '',
-            tsPublication: '',         
-            tsPrintingStart: '',
-            tsPrintingEnd: '',
-            tsValidStart: '',
-            tsValidEnd: '',
-            smsIdentity:''
-          }
+          this.campaignData = new Campaign();
           this.multiStepService.setNextButtonState(true);
         }
       }
@@ -83,11 +69,10 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.campaignData.tsPrintingEnd = format(this.campaignData.tsPrintingEnd,this.dateFormat);
     // this.campaignData.tsPrintingStart = format(this.campaignData.tsPrintingStart,this.dateFormat);
     // this.campaignData.tsValidEnd = format(this.campaignData.tsValidEnd,this.dateFormat);
-    // this.campaignData.tsValidStart = format(this.campaignData.tsValidStart,this.dateFormat);    
+    // this.campaignData.tsValidStart = format(this.campaignData.tsValidStart,this.dateFormat);
   }
 
   hasNull(target) {
-    console.log()
     let count = this.inputFieldsCount;
     for (var member in target) {
         if (target[member] != ""){
@@ -95,22 +80,23 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     if(count>0){
-      console.log(this.campaignData.smsIdentity)
-      console.log(this.campaignData.mailBody)
+      
     }else{
       this.multiStepService.setNextButtonState(false);
       this.multiStepService.setCampaignData(this.campaignData);
     }
   }
   requiredFileds(value){
-    if(value === 'MS' || value === 'MSP'){
+    if(value === 'M'){
       this.inputFieldsCount = 9;
-    }else if( value === 'SMS'){
-      this.inputFieldsCount = 8;      
-    }else if(value === 'M'){
-      this.inputFieldsCount = 8;      
+    }else if( value === 'MS'){
+      this.inputFieldsCount = 10;
+    }else if( value === 'MSP'){
+      this.inputFieldsCount = 11;
+    }else if(value === 'SMS'){
+      this.inputFieldsCount = 9;
     }else{
-      this.inputFieldsCount = 9;      
+      this.inputFieldsCount = 9;
     }
   }
   count(msg){
@@ -125,9 +111,18 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.isLoading = false;
       this.homeService.smsIdentityList().subscribe(data=>{
-        
-      })
+        this.smsIdentityList = data;
+      });
+
+    this.homeService.premiseList().subscribe(data=>{
+        this.premiseList = data;
+      });
+
+    this.homeService.productTypeList().subscribe(data=>{
+      this.campaignType = data;
+    });
   }
+
   ngOnDestroy(){
     tinymce.remove(this.editor);
   }
@@ -144,7 +139,10 @@ export class CampaignDataComponent implements OnInit, AfterViewInit, OnDestroy {
           this.campaignData.mailBody = content;
         });
         editor.on('init', () => {
-          editor.setContent(this.campaignData.mailBody);
+          if(this.campaignData.mailBody){
+            editor.setContent(this.campaignData.mailBody);
+          }
+          // editor.setContent(this.campaignData.mailBody);
         });
       },
     });

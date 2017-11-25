@@ -7,7 +7,7 @@ export class Campaign {
     smsIdentity: string;
     mailSubject: string;
     mailBody: string;
-    tsPublication: any;         
+    tsPublication: any;
     tsPrintingStart: any;
     tsPrintingEnd: any;
     tsValidStart: any;
@@ -16,5 +16,21 @@ export class Campaign {
     flExtra?: string;
     imageFileName ?: string;
     imageUrl?: string;
-    campaignDetailsList? : {}
+    campaignDetailsList?: {};
+
+  constructor() {
+    this.cdProduct = 'MS';
+    this.dsCampaign = '';
+    this.message = '';
+    this.smsMessage = '';
+    this.mailSubject = '';
+    this.mailBody = '';
+    this.tsPublication = '';
+    this.tsPrintingStart = '';
+    this.tsPrintingEnd = '';
+    this.tsValidStart = '';
+    this.tsValidEnd = '';
+    this.smsIdentity = '';
+    this.qtFreebee = 1;
+  }
 }

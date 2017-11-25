@@ -8,7 +8,7 @@ export class HomeService {
   constructor(
     private apiService : ApiService
   ) { }
-  
+
   queryActiveCampaigns(body){
     let path = 'stat'
     return this.apiService.post(path,body)
@@ -16,9 +16,10 @@ export class HomeService {
                       return data
                     })
   }
-  downloadXls(){
-    let path = 'campaign/drilldown'
-    return this.apiService.post(path)
+  downloadXls(data){
+    console.log(data);
+    let path = 'stat/drilldown'
+    return this.apiService.post1(path,data)
                     .map(data =>{
                       return data
                     })
@@ -40,7 +41,7 @@ export class HomeService {
   }
 
   disableSelectedCampaign(id){
-    var path = '​campaign/abort/'+id;
+    var path = 'campaign/abort/'+id;
     return this.apiService.put(path)
                           .map(data =>{
                             return data
@@ -94,8 +95,16 @@ export class HomeService {
                           })
   }
 
+  viewCampaign(id){
+    var path = 'campaign/'+id
+    return this.apiService.get(path)
+                          .map(data =>{
+                            return data
+                          })
+  }
+
   disableSelectedCampaigns(id){
-    var path = 'card/'+id+'/disable'
+    var path = 'abort/'+id
     return this.apiService.get(path)
                           .map(data =>{
                             return data
@@ -110,12 +119,36 @@ export class HomeService {
                           })
   }
 
+  downloadCampaign(id){
+    var path = 'campaign/download/'+ id
+    return this.apiService.get(path)
+                          .map(data =>{
+                            return data
+                          })
+  }
+
   smsIdentityList(){
     let path = 'select/smsIdentity'
     return this.apiService.get(path)
     .map(data =>{
       return data
-    })    
+    })
+  }
+
+  premiseList(){
+    let path = 'select/premises'
+    return this.apiService.get(path)
+      .map(data =>{
+        return data
+      })
+  }
+
+  productTypeList(){
+    let path = 'select/productType'
+    return this.apiService.get(path)
+      .map(data =>{
+        return data
+      })
   }
 
   addNewCampaign(data){

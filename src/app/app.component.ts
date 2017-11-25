@@ -18,13 +18,14 @@ export class AppComponent implements OnInit{
     private idle: Idle,
      private keepalive: Keepalive
   ){
-    idle.setIdle(149);
-    idle.setTimeout(149);
+    idle.setIdle(5);
+    idle.setTimeout(290);
     // idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
     // idle.onIdleEnd.subscribe(() => console.log('No longer idle.'));
     idle.onTimeout.subscribe(() => {
       this.reset();  
+      console.log("authentication with token called")
       this.userService.populate();
     });
 

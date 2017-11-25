@@ -350,6 +350,17 @@ export class CardsComponent implements OnInit {
     this.display = true;
     this.proceedSubmit = false;
   }
+
+  closeAddNewCard(form){
+    form.reset();
+    this.display=false;
+    this.proceedSubmit = true;
+    this.addNewCardError= '';
+  }
+  resetNewCardErrors(){
+    this.proceedSubmit = false;
+    this.addNewCardError = '';
+  }
   saveNewCard(newcardform, form){
     let path = 'card/save'
     if(this.proceedSubmit){
@@ -410,14 +421,23 @@ export class CardsComponent implements OnInit {
     }
     this.homeService.queryCards(path, body)
       .subscribe(res => {
-        this.cardsList = res.data;
-        this.isLoading = false;
-        this.source = new LocalDataSource(this.cardsList);
+        if(res.statusCode === 'OK'){
+          this.cardsList = res.data;
+          this.isLoading = false;
+          this.source = new LocalDataSource(this.cardsList);
+        }else{
+          this.cardsList = [];          
+          this.isLoading = false;
+          this.source = new LocalDataSource(this.cardsList);
+        }
+        console.log(res);
+        
       }, err => {
         console.log(err)
       }
       )
   }
+  
   ngOnInit() {
     this.initCardsList(0,99999999999999, '','','')
 

@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   "api_url":"http://52.59.47.73/fd/rest/",
-  dateFormat:'YYYY-MM-DD hh:mm',
-  summaryFormat:'yyyy-MM-dd hh:mm'
+  dateFormat:'YYYY-MM-DD HH:mm',
+  summaryFormat:'yyyy-MM-dd HH:mm'
 };
 

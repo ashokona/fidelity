@@ -1,21 +1,40 @@
-:host /deep/ ng2-smart-table tbody > tr > td:first-child { 
+:host /deep/ ng2-smart-table tbody>tr>td:first-child {}
 
-}
-
-:host /deep/ ng2-smart-table tbody{ 
+:host /deep/ ng2-smart-table tbody {
     font-size: 16px;
 }
 
-:host /deep/ ng2-smart-table tbody > tr > td{ 
-    padding:15px
+:host /deep/ ng2-smart-table tbody>tr>td {
+    padding: 15px
 }
-:host /deep/ ng2-smart-table thead > tr > th{ 
-    padding:15px;
+
+:host /deep/ ng2-smart-table thead>tr>th {
+    padding: 15px;
     font-size: 16px;
 }
 
-.error { color:red; padding-bottom:5px };
-.modal-card .form-group input.notValid { border: 1px solid red;}
+.error {
+    color: red;
+    padding-bottom: 5px
+}
+
+;
+.modal-card .form-group input.notValid {
+    border: 1px solid red;
+}
+
 .new-card-error {
-    color:red
+    color: red
+}
+
+.ng-tns-c9-2 {
+    color: #f4fbfd !important
+}
+
+.fa-close {
+    color: #f4fbfd !important
+}
+
+.ui-dialog-titlebar-close {
+    color: #f4fbfd !important
 }

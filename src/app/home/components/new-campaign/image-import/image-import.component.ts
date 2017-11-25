@@ -104,6 +104,7 @@ export class ImageImportComponent implements OnInit {
 
       }, 
       err=> {
+        this.isLoading = false;
         console.log(err)
     })
   }

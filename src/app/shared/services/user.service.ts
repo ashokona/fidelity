@@ -33,16 +33,6 @@ export class UserService {
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
   populate() {
-    // If JWT detected, attempt to get & store user's info
-    // if (this.jwtService.getToken()) {
-    //   this.apiService.get('/user')
-    //   .subscribe(
-    //     data => this.setAuth(data),
-    //     err => this.purgeAuth()
-    //   );
-    // } else {
-    //   this.purgeAuth();
-    // }
     if (this.jwtService.getToken()) {
       var user = {
         "token": this.jwtService.getToken(),

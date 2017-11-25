@@ -1,198 +1,162 @@
 <loaders-css [loader]="'square-spin'" *ngIf="isLoading" [loaderClass]="'my-loader'"></loaders-css>
-  <div class="card" *ngIf="!isLoading">
-      <div class="header">
-          <h4 class="title">Campaign Data</h4>
-      </div>
-      <div class="content">
-          <form name="campaignData" #campaignDataForm="ngForm" novalidate class="campaigndata-form" >
-              <div class="row">
-                  <div class="col-md-6">
-                      <div class="form-group">
-                          <label>Title</label>
-                          <input
-                            type="text"
-                            [(ngModel)]="campaignData.dsCampaign"
-                            (ngModelChange)="doSomething(campaignData)"
-                            #dsCampaign="ngModel"
-                            name="dsCampaign"
-                            class="form-control border-input"
-                            placeholder="Campaign Title"
-                            required >
-                          <div *ngIf="dsCampaign.errors && (dsCampaign.dirty || dsCampaign.touched)" class="error">
+<div class="card" *ngIf="!isLoading">
+    <div class="header">
+        <h4 class="title">Campaign Data</h4>
+    </div>
+    <div class="content">
+        <form name="campaignData" #campaignDataForm="ngForm" novalidate class="campaigndata-form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" style="margin-right:10px;margin-left:10px">
+                        <label>Premise</label>
+                        <select class="form-control" [(ngModel)]="campaignData.idPremise" (ngModelChange)="doSomething(campaignData)" (change)="requiredFileds(campaignData.idPremise)" #idPremise="ngModel" name="idPremise" id="selPremise" required>
+                    <option>Select</option>
+                    <option *ngFor="let type of premiseList" value="{{type.value}}">{{type.description}}</option>
+                  </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6" *ngIf="!(campaignData.cdProduct == 'SMS')">
+                    <div class="form-group">
+                        <label>Goodies quantity</label>
+                        <input type="number" min="1" max="10" [class.notValid]="qtFreebee.errors && (qtFreebee.dirty || qtFreebee.touched)" [(ngModel)]="campaignData.qtFreebee" (ngModelChange)="doSomething(campaignData)" #qtFreebee="ngModel" name="qtFreebee" class="form-control border-input"
+                            placeholder="Goodies quantity" required>
+                        <div *ngIf="qtFreebee.errors && (qtFreebee.dirty || qtFreebee.touched)" class="error">
+                            <span [hidden]="!qtFreebee.errors.required">Quantity is required </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" [(ngModel)]="campaignData.dsCampaign" (ngModelChange)="doSomething(campaignData)" #dsCampaign="ngModel" name="dsCampaign" class="form-control border-input" placeholder="Campaign Title" required>
+                        <div *ngIf="dsCampaign.errors && (dsCampaign.dirty || dsCampaign.touched)" class="error">
                             <span [hidden]="!dsCampaign.errors.required">Campaign Title is required </span>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-md-6">
-                      <div class="form-group">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label>Type</label>
-                        <select
-                          class="form-control"
-                          [(ngModel)]="campaignData.cdProduct"
-                          (ngModelChange)="doSomething(campaignData)"
-                          (change)="requiredFileds(campaignData.cdProduct)"
-                          #cdProduct="ngModel"
-                          name="cdProduct" id="sel1"
-                          required>
+                        <select class="form-control" [(ngModel)]="campaignData.cdProduct" (ngModelChange)="doSomething(campaignData)" (change)="requiredFileds(campaignData.cdProduct)" #cdProduct="ngModel" name="cdProduct" id="sel1" required>
                             <option>Select</option>
-                            <option *ngFor="let type of campaignType" value="{{type.name}}">{{type.name}}</option>
+                            <option *ngFor="let type of campaignType" value="{{type.value}}">{{type.description}}</option>
                         </select>
                         <div *ngIf="cdProduct.errors && (cdProduct.dirty || cdProduct.touched)" class="error">
-                          <span [hidden]="!cdProduct.errors.required">Campaign Data is required </span>
-                        </div>
-                      </div>
-                  </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Campaign Validity from</label>
-                        <owl-date-time
-                            date-options="dateOptions"
-                          [(ngModel)]="campaignData.tsValidStart"
-                          (ngModelChange)="doSomething(campaignData)"
-                          name="tsValidStart"
-                          #tsValidStart="ngModel"
-                          [dateFormat]="dateFormat"
-                          ></owl-date-time>
-                          <div *ngIf="tsValidStart.errors && (tsValidStart.dirty || tsValidStart.touched)" class="error">
-                            <span [hidden]="!tsValidStart.errors.required">Campaign Validity from date is required </span>
-                          </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Campaign Validity To</label>
-                        <owl-date-time
-                        [(ngModel)]="campaignData.tsValidEnd"
-                        (ngModelChange)="doSomething(campaignData)"
-                        name="tsValidEnd"
-                        #tsValidEnd="ngModel"
-                        [dateFormat]="dateFormat"
-                        [min]="campaignData.tsValidStart"
-                        required ></owl-date-time>
-                        <div *ngIf="tsValidEnd.errors && (tsValidEnd.dirty || tsValidEnd.touched)" class="error">
-                          <span [hidden]="!tsValidEnd.errors.required">Campaign Validity To date is required </span>
+                            <span [hidden]="!cdProduct.errors.required">Campaign Data is required </span>
                         </div>
                     </div>
-
                 </div>
-              </div>
-
-              <div class="row">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Publishing Date</label>
+                        <owl-date-time [(ngModel)]="campaignData.tsPublication" (ngModelChange)="doSomething(campaignData)" name="tsPublication" #tsPublication="ngModel" [dateFormat]="dateFormat" [min]="todayDate" required></owl-date-time>
+                        <div *ngIf="tsPublication.errors && (tsPublication.dirty || tsPublication.touched)" class="error">
+                            <span [hidden]="!tsPublication.errors.required">Publishing Date To date is required </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Printing Validity from</label>
-                        <owl-date-time
-                          [(ngModel)]="campaignData.tsPrintingStart"
-                          (ngModelChange)="doSomething(campaignData)"
-                          name="tsPrintingStart"
-                          #tsPrintingStart="ngModel"
-                          [dateFormat]="dateFormat"
-                          required></owl-date-time>
+                        <owl-date-time [(ngModel)]="campaignData.tsPrintingStart" (ngModelChange)="doSomething(campaignData)" name="tsPrintingStart" #tsPrintingStart="ngModel" [dateFormat]="dateFormat" [min]="todayDate" required></owl-date-time>
                         <div *ngIf="tsPrintingStart.errors && (tsPrintingStart.dirty || tsPrintingStart.touched)" class="error">
-                          <span [hidden]="!tsPrintingStart.errors.required">Printing Validity from date is required </span>
+                            <span [hidden]="!tsPrintingStart.errors.required">Printing Validity from date is required </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Printing Validity To</label>
-                        <owl-date-time
-                          [(ngModel)]="campaignData.tsPrintingEnd"
-                          (ngModelChange)="doSomething(campaignData)" 
-                          name="tsPrintingEnd" 
-                          #tsPrintingEnd="ngModel" 
-                          [dateFormat]="dateFormat"
-                          [min]="campaignData.tsPrintingStart"
-                          required></owl-date-time>
+                        <owl-date-time [(ngModel)]="campaignData.tsPrintingEnd" (ngModelChange)="doSomething(campaignData)" name="tsPrintingEnd" #tsPrintingEnd="ngModel" [dateFormat]="dateFormat" [min]="campaignData.tsPrintingStart" required></owl-date-time>
                         <div *ngIf="tsPrintingEnd.errors && (tsPrintingEnd.dirty || tsPrintingEnd.touched)" class="error">
-                          <span [hidden]="!tsPrintingEnd.errors.required">Printing Validity To from date is required </span>
+                            <span [hidden]="!tsPrintingEnd.errors.required">Printing Validity To from date is required </span>
                         </div>
                     </div>
                 </div>
-              </div>
+            </div>
 
-              <div class="row">
-                  <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label>Publishing Date</label>
-                        <owl-date-time
-                          [(ngModel)]="campaignData.tsPublication"
-                          (ngModelChange)="doSomething(campaignData)"
-                          name="tsPublication"
-                          #tsPublication="ngModel"
-                          [dateFormat]="dateFormat"
-                          required></owl-date-time>
-                        <div *ngIf="tsPublication.errors && (tsPublication.dirty || tsPublication.touched)" class="error">
-                          <span [hidden]="!tsPublication.errors.required">Publishing Date To date is required </span>
+                        <label>Campaign Validity from</label>
+                        <owl-date-time date-options="dateOptions" [(ngModel)]="campaignData.tsValidStart" (ngModelChange)="doSomething(campaignData)" name="tsValidStart" #tsValidStart="ngModel" [min]="todayDate" [dateFormat]="dateFormat"></owl-date-time>
+                        <div *ngIf="tsValidStart.errors && (tsValidStart.dirty || tsValidStart.touched)" class="error">
+                            <span [hidden]="!tsValidStart.errors.required">Campaign Validity from date is required </span>
                         </div>
                     </div>
-                  </div>
-              </div>
-              <div class="row">
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Campaign Validity To</label>
+                        <owl-date-time [(ngModel)]="campaignData.tsValidEnd" (ngModelChange)="doSomething(campaignData)" name="tsValidEnd" #tsValidEnd="ngModel" [dateFormat]="dateFormat" [min]="campaignData.tsValidStart" required></owl-date-time>
+                        <div *ngIf="tsValidEnd.errors && (tsValidEnd.dirty || tsValidEnd.touched)" class="error">
+                            <span [hidden]="!tsValidEnd.errors.required">Campaign Validity To date is required </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+
+            <div class="row">
                 <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'SMS' || campaignData.cdProduct == 'MSP') ">
                     <div class="form-group" style="margin-right:10px;margin-left:10px">
                         <label>SMS sender identity</label>
-                        <input
-                        type="text"
-                        [class.notValid]="smsIdentity.errors && (smsIdentity.dirty || smsIdentity.touched)"
-                        [(ngModel)]="campaignData.smsIdentity"
-                        (ngModelChange)="doSomething(campaignData)"
-                        #smsIdentity="ngModel"
-                        name="smsIdentity"
-                        class="form-control border-input"
-                        placeholder=""
-                        value="Australia"
-                        [required]="(campaignData.smsIdentity == 'SMS' || campaignData.smsIdentity == 'MSP')">
-                        <div *ngIf="smsIdentity.errors && (smsIdentity.dirty || smsIdentity.touched)" class="error">
-                            <span [hidden]="!smsIdentity.errors.required">Mail Subject is required </span>
+                        <select class="form-control" [(ngModel)]="campaignData.smsIdentity" (ngModelChange)="doSomething(campaignData)" (change)="requiredFileds(campaignData.smsIdentity)" #smsIdentity="ngModel" name="smsIdentity" id="sel1" required>
+                        <option>Select</option>
+                        <option *ngFor="let type of smsIdentityList" value="{{type.value}}">{{type.description}}</option>
+                      </select>
+                        <!--<input-->
+                        <!--type="text"-->
+                        <!--[class.notValid]="smsIdentity.errors && (smsIdentity.dirty || smsIdentity.touched)"-->
+                        <!--[(ngModel)]="campaignData.smsIdentity"-->
+                        <!--(ngModelChange)="doSomething(campaignData)"-->
+                        <!--#smsIdentity="ngModel"-->
+                        <!--name="smsIdentity"-->
+                        <!--class="form-control border-input"-->
+                        <!--placeholder=""-->
+                        <!--value="Australia"-->
+                        <!--[required]="(campaignData.smsIdentity == 'SMS' || campaignData.smsIdentity == 'MSP')">-->
+                        <!--<div *ngIf="smsIdentity.errors && (smsIdentity.dirty || smsIdentity.touched)" class="error">-->
+                        <!--<span [hidden]="!smsIdentity.errors.required">Mail Subject is required </span>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP' || campaignData.cdProduct == 'SMS') ">
+                    <div class="form-group" style="margin-right:10px">
+                        <!-- <label>Sms Message <b *ngIf = 'campaignData.smsMessage.length'>({{campaignData.smsMessage.length}} Character)</b></label> -->
+                        <label>Sms Message <b *ngIf = 'campaignData.smsMessage'>({{campaignData.smsMessage.length}} Character)</b></label>
+                        <textarea class="form-control border-input" [class.notValid]="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)" [(ngModel)]="campaignData.smsMessage" (keyup)="count(campaignData.smsMessage)" (ngModelChange)="doSomething(campaignData)" #smsMessage="ngModel"
+                            name="smsMessage" placeholder="SMS Message" [required]="(campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP' || campaignData.cdProduct == 'SMS')" rows="2" id="comment"></textarea>
+                        <div *ngIf="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)" class="error">
+                            <span [hidden]="!smsMessage.errors.required">SMS Message is required </span>
                         </div>
                     </div>
                 </div>
-              </div>
-              <div class="row">
-                  <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP' || campaignData.cdProduct == 'SMS') ">
-                      <div class="form-group" style="margin-right:10px">
-                         <label>Sms Message <b *ngIf = 'campaignData.smsMessage.length'>({{campaignData.smsMessage.length}} Character)</b></label>
-                          <textarea
-                            class="form-control border-input"
-                            [class.notValid]="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)"
-                            [(ngModel)]="campaignData.smsMessage"
-                            (keyup)="count(campaignData.smsMessage)"
-                            (ngModelChange)="doSomething(campaignData)"
-                            #smsMessage="ngModel"
-                            name="smsMessage"
-                            placeholder="SMS Message"
-                            [required]="(campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP' || campaignData.cdProduct == 'SMS')"
-                            rows="2"
-                            id="comment"></textarea>
-                            <div *ngIf="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)" class="error">
-                              <span [hidden]="!smsMessage.errors.required">SMS Message is required </span>
-                            </div>
-                      </div>
-                  </div>
-                  <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'M' || campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP') ">
-                      <div class="form-group" style="margin-right:10px;margin-left:10px">
-                          <label>Mail Subject</label>
-                          <input
-                            type="text"
-                            [class.notValid]="mailSubject.errors && (mailSubject.dirty || mailSubject.touched)"
-                            [(ngModel)]="campaignData.mailSubject"
-                            (ngModelChange)="doSomething(campaignData)"
-                            #mailSubject="ngModel"
-                            name="mailSubject"
-                            class="form-control border-input"
-                            placeholder="Country"
-                            value="Australia"
-                            [required]="(campaignData.cdProduct == 'M' || campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP')">
-                            <div *ngIf="mailSubject.errors && (mailSubject.dirty || mailSubject.touched)" class="error">
-                              <span [hidden]="!mailSubject.errors.required">Mail Subject is required </span>
-                            </div>
-                      </div>
-                  </div>
-                  <!-- <div class="col-md-4">
+                <div class="col-md-12" *ngIf="(campaignData.cdProduct == 'M' || campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP') ">
+                    <div class="form-group" style="margin-right:10px;margin-left:10px">
+                        <label>Mail Subject</label>
+                        <input type="text" [class.notValid]="mailSubject.errors && (mailSubject.dirty || mailSubject.touched)" [(ngModel)]="campaignData.mailSubject" (ngModelChange)="doSomething(campaignData)" #mailSubject="ngModel" name="mailSubject" class="form-control border-input"
+                            placeholder="Country" value="Australia" [required]="(campaignData.cdProduct == 'M' || campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP')">
+                        <div *ngIf="mailSubject.errors && (mailSubject.dirty || mailSubject.touched)" class="error">
+                            <span [hidden]="!mailSubject.errors.required">Mail Subject is required </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
                       <div class="form-group">
                           <label>Mail Body</label>
                           <input
@@ -210,26 +174,22 @@
                             </div>
                       </div>
                   </div> -->
-                    <div class="col-md-12" [hidden]="!(campaignData.cdProduct == 'M' || campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP') ">
-                        <div class="form-group" style="margin-left:10px">
-                            <label>Mail Body</label>
-                            <textarea id="mailBody"
-                                [(ngModel)]="campaignData.mailBody"
-                                (ngModelChange)="doSomething(campaignData)"
-                                #mailBody="ngModel"
-                                name="mailBody" required></textarea>
-                            <div *ngIf="mailBody.errors && (mailBody.dirty || mailBody.touched)" class="error">
-                                <span [hidden]="!mailBody.errors.required">Mail Body is required </span>
-                            </div>
+                <div class="col-md-12" [hidden]="!(campaignData.cdProduct == 'M' || campaignData.cdProduct == 'MS' || campaignData.cdProduct == 'MSP') ">
+                    <div class="form-group" style="margin-left:10px">
+                        <label>Mail Body</label>
+                        <textarea id="mailBody" [(ngModel)]="campaignData.mailBody" (ngModelChange)="doSomething(campaignData)" #mailBody="ngModel" name="mailBody" required></textarea>
+                        <div *ngIf="mailBody.errors && (mailBody.dirty || mailBody.touched)" class="error">
+                            <span [hidden]="!mailBody.errors.required">Mail Body is required </span>
                         </div>
                     </div>
-              </div>
+                </div>
+            </div>
 
 
-              <!-- <div class="text-center">
+            <!-- <div class="text-center">
                   <button type="submit" class="btn btn-info btn-fill btn-wd">Update Profile</button>
               </div> -->
-              <div class="clearfix"></div>
-          </form>
-      </div>
-  </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+</div>
